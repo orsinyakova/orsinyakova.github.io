@@ -1,0 +1,1265 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Оля Синякова — дизайнер</title>
+<meta name="description" content="Логотип и фирменный стиль, сайты на Тильде и Таплинке, презентации, креативы и соцсети">
+<meta name="theme-color" content="#27201D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700&family=Golos+Text:wght@400;500&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+<style>
+  /* ===== Токены ===== */
+  :root{
+    --espresso:#27201D;  /* фон */
+    --cream:#FCF2BD;     /* текст */
+    --orange:#FF5121;    /* акцент, главная кнопка */
+    --blue:#055DFF;      /* дополнительный, изредка */
+    --milk:#FAF6EC;      /* нежно-сливочный: фон светлых секций */
+    --cream-70:rgba(252,242,189,.7);  /* вторичный текст */
+    --cream-15:rgba(252,242,189,.15); /* линии */
+
+    --serif:'Old Standard TT',Georgia,serif;
+    --sans:'Golos Text',system-ui,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+
+    /* сетка: контейнер 1200, поля 40 / 32 / 20 */
+    --container:1200px;
+    --gutter:40px;
+    --header-h:76px;
+    --ease:cubic-bezier(.22,1,.36,1);
+  }
+  @media (max-width:1279px){:root{--gutter:32px}}
+  @media (max-width:767px){:root{--gutter:20px;--header-h:64px}}
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:var(--header-h)}
+  body{background:var(--espresso);color:var(--cream);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  :focus-visible{outline:2px solid var(--orange);outline-offset:4px;border-radius:4px}
+
+  .container{max-width:calc(var(--container) + var(--gutter) * 2);margin:0 auto;padding:0 var(--gutter)}
+
+  .skip{position:absolute;left:var(--gutter);top:-100px;z-index:100;background:var(--cream);color:var(--espresso);padding:12px 16px;border-radius:999px;font-size:14px}
+  .skip:focus{top:12px}
+
+  /* ===== Блок 0. Шапка ===== */
+  .header{position:fixed;inset:0 0 auto;z-index:50;height:var(--header-h);transition:background-color .3s var(--ease),border-color .3s var(--ease)}
+  .header.is-scrolled{background:rgba(39,32,29,.86);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--cream-15)}
+  .header__in{height:100%;display:flex;align-items:center;gap:32px}
+
+  .logo{display:flex;align-items:baseline;gap:8px;font-family:var(--serif);font-size:24px;line-height:1;white-space:nowrap}
+  .logo__tag{font-family:var(--mono);font-size:12px;color:var(--cream-70);margin-left:8px;align-self:center}
+
+  .nav{margin-left:auto}
+  .nav ul{display:flex;gap:4px;list-style:none}
+  .nav a{position:relative;display:inline-flex;align-items:center;min-height:44px;padding:0 12px;font-size:15px}
+  .nav a::after{content:"";position:absolute;left:12px;right:12px;bottom:8px;height:1px;background:var(--orange);transform:scaleX(0);transform-origin:right;transition:transform .35s var(--ease)}
+  .nav a:hover::after,.nav a[aria-current="true"]::after{transform:scaleX(1);transform-origin:left}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:44px;padding:0 22px;border-radius:999px;font-size:15px;font-weight:500;white-space:nowrap;transition:scale .25s var(--ease),background-color .25s var(--ease),color .25s var(--ease)}
+  .btn--main{background:var(--orange);color:var(--cream)}
+  .btn--main:hover{background:var(--cream);color:var(--espresso)}
+  /* scale, а не transform: transform занят анимацией GSAP */
+  .btn--main:active{scale:.97}
+  /* кнопка с обводкой: спокойнее, не спорит с заголовком */
+  .btn--outline{border:1px solid var(--cream);color:var(--cream);background:rgba(39,32,29,.2);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+  .btn--outline:hover{background:var(--cream);color:var(--espresso)}
+  .btn--outline:active{scale:.97}
+  .btn svg{width:16px;height:16px;flex:none}
+  .btn .pen-arrow{width:24px;height:16px}
+
+  .burger{display:none;width:44px;height:44px;margin-left:auto;border-radius:50%;border:1px solid var(--cream-15);position:relative}
+  .burger span{position:absolute;left:13px;right:13px;height:1.5px;background:var(--cream);transition:transform .35s var(--ease),top .35s var(--ease)}
+  .burger span:nth-child(1){top:18px}
+  .burger span:nth-child(2){top:25px}
+  .burger[aria-expanded="true"] span:nth-child(1){top:21px;transform:rotate(45deg)}
+  .burger[aria-expanded="true"] span:nth-child(2){top:21px;transform:rotate(-45deg)}
+
+  /* мобильное меню */
+  .menu{position:fixed;inset:0;z-index:40;background:var(--espresso);padding:calc(var(--header-h) + 24px) var(--gutter) 32px;display:flex;flex-direction:column;visibility:hidden;opacity:0}
+  .menu.is-open{visibility:visible;opacity:1}
+  .menu__label{font-family:var(--mono);font-size:12px;color:var(--cream-70);margin-bottom:12px}
+  .menu ul{list-style:none;border-top:1px solid var(--cream-15)}
+  .menu li{border-bottom:1px solid var(--cream-15);overflow:hidden}
+  .menu ul a{display:flex;justify-content:space-between;align-items:baseline;padding:16px 0;font-family:var(--serif);font-size:clamp(36px,11vw,52px);line-height:1.05}
+  .menu ul a:active{color:var(--orange)}
+  .menu ul a small{font-family:var(--mono);font-size:12px;color:var(--cream-70)}
+  .menu__foot{margin-top:auto;display:grid;gap:16px}
+  .menu__foot .btn{width:100%;min-height:52px;font-size:16px}
+  .menu__social{display:flex;gap:24px;font-family:var(--mono);font-size:13px;color:var(--cream-70)}
+  .menu__social a{min-height:44px;display:inline-flex;align-items:center}
+
+  @media (max-width:1023px){.logo__tag{display:none}}
+  @media (max-width:860px){
+    .nav,.header__cta{display:none}
+    .burger{display:block}
+  }
+  @media (min-width:861px){.menu{display:none}}
+  body.menu-open{overflow:hidden}
+
+  /* ===== Блок 1. Первый экран ===== */
+  .hero{position:relative;min-height:100svh;padding:calc(var(--header-h) + 96px) 0 96px;overflow:hidden;isolation:isolate}
+  /* фон: фото на весь экран + затемнение для читаемости */
+  .hero__bg{position:absolute;inset:0;z-index:-1;background:var(--espresso)}
+  /* видео во весь экран, но шире его на 30%: правый край обрезан, лицо смещается вправо из-под текста */
+  .hero__video{position:absolute;top:0;left:0;width:130%;height:100%;object-fit:cover;object-position:50% 40%}
+  .hero__bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 55% 60% at 22% 38%,rgba(39,32,29,.4) 0%,rgba(39,32,29,0) 100%),linear-gradient(90deg,rgba(39,32,29,.55) 0%,rgba(39,32,29,.35) 40%,rgba(39,32,29,0) 70%),linear-gradient(0deg,rgba(39,32,29,.7) 0%,rgba(39,32,29,0) 35%),linear-gradient(180deg,rgba(39,32,29,.75) 0%,rgba(39,32,29,0) 22%)}
+
+  .hero h1{font-family:var(--sans);font-weight:400;font-size:64px;line-height:1.1;letter-spacing:-.02em}
+  .hero h1 .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}
+  .hero h1 .w > span{display:inline-block}
+  .hero__lead{margin-top:32px;max-width:28em;font-size:20px;line-height:1.5}
+  .hero__actions{margin-top:32px}
+  .btn--lg{min-height:56px;padding:0 32px;font-size:16px}
+
+  @media (max-width:1279px){
+    .hero{padding-top:calc(var(--header-h) + 64px)}
+    .hero h1{font-size:56px}
+  }
+  @media (max-width:767px){
+    .hero{padding:calc(var(--header-h) + 48px) 0 48px;display:flex;flex-direction:column}
+    .hero h1{font-size:40px}
+    .hero__lead{margin-top:24px;font-size:17px}
+    .hero > .container{flex:1;display:flex;flex-direction:column}
+    .hero__actions{margin-top:auto;padding-top:32px}
+    .hero__actions .btn{width:100%}
+    .hero__video{width:100%}
+    .hero__bg::after{background:linear-gradient(180deg,rgba(39,32,29,.9) 0%,rgba(39,32,29,.75) 50%,rgba(39,32,29,.55) 75%,rgba(39,32,29,.85) 100%)}
+  }
+  @media (max-width:359px){.hero h1{font-size:36px}}
+
+  /* ===== Общие стили секций ===== */
+  .section{padding:96px 0}
+  .section__head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px 24px;margin-bottom:48px}
+  .section__title{font-family:var(--sans);font-weight:400;font-size:48px;line-height:1.1;letter-spacing:-.02em}
+  .label{font-family:var(--mono);font-size:13px;color:var(--cream-70)}
+  @media (max-width:1279px){.section{padding:64px 0}.section__title{font-size:40px}}
+  @media (max-width:767px){.section{padding:56px 0}.section__head{margin-bottom:32px}.section__title{font-size:32px}}
+
+  /* ===== Светлая секция: сливочный фон, коричневый текст =====
+     Цвета меняются местами внутри секции, поэтому кнопки, фильтр и подписи
+     перекрашиваются сами. */
+  .section--light{
+    --cream:#27201D; --espresso:var(--milk);
+    --cream-70:rgba(39,32,29,.72); --cream-15:rgba(39,32,29,.18);
+    background:var(--espresso);color:var(--cream)
+  }
+  .section--light .btn--outline{background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}
+  .section--light .card__media,.section--light .ph{background:rgba(39,32,29,.06)}
+
+  /* ===== Блок 2. Проекты ===== */
+  .filters{display:flex;flex-wrap:wrap;gap:8px;list-style:none}
+  .chip{min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--cream-15);font-size:15px;color:var(--cream-70);transition:border-color .25s var(--ease),color .25s var(--ease),background-color .25s var(--ease)}
+  .chip:hover{border-color:var(--cream);color:var(--cream)}
+  .chip[aria-pressed="true"]{background:var(--cream);border-color:var(--cream);color:var(--espresso)}
+
+  .projects__grid{display:grid;grid-template-columns:repeat(12,1fr);gap:48px 24px}
+  .card{grid-column:span 6;display:flex;flex-direction:column}
+  .card[hidden]{display:none}
+  .card--featured{grid-column:1 / -1;display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;align-items:end}
+  .card--featured .card__media{grid-column:1 / 8}
+  .card--featured .card__body{grid-column:8 / 13;margin-top:0}
+
+  .card__media{position:relative;display:block;border-radius:24px;overflow:hidden;aspect-ratio:3/2;background:rgba(252,242,189,.06)}
+  .card__media img,.card__media video{display:block;width:100%;height:100%;object-fit:cover;transition:scale .6s var(--ease)}
+  .card__media:hover img,.card__media:hover video{scale:1.04}
+  /* фото из кейса поверх видео: проявляется при наведении (только там, где есть мышь) */
+  .card__media .card__hover{position:absolute;inset:0;opacity:0;transition:opacity .5s var(--ease),scale .6s var(--ease)}
+  @media (hover:hover){
+    .card__media:hover .card__hover,.card__media:focus-visible .card__hover{opacity:1}
+  }
+  .card__body{margin-top:24px;display:flex;flex-direction:column;gap:16px}
+  .card__title{font-family:var(--sans);font-weight:400;font-size:28px;line-height:1.2}
+  .card__text{color:var(--cream-70);max-width:34em}
+  .card__actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px;margin-top:8px}
+
+  .link{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-size:15px;color:var(--cream);border-bottom:1px solid var(--cream-15);transition:border-color .25s var(--ease)}
+  .link:hover{border-color:var(--cream)}
+  .link svg{width:20px;height:14px}
+
+  /* заглушка вместо фото: показывает, какой файл положить */
+  .ph{width:100%;height:100%;display:grid;place-items:center;text-align:center;padding:24px;border:1px dashed var(--cream-15);border-radius:inherit;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--cream-70)}
+  .ph b{display:block;font-family:var(--sans);font-weight:500;font-size:14px;color:var(--cream);margin-bottom:4px}
+
+  @media (max-width:1279px){
+    .projects__grid{grid-template-columns:repeat(8,1fr);gap:48px 20px}
+    .card{grid-column:span 4}
+    .card--featured{grid-template-columns:1fr}
+    .card--featured .card__media,.card--featured .card__body{grid-column:auto}
+    .card--featured .card__body{margin-top:24px}
+    .card__title{font-size:24px}
+  }
+  @media (max-width:767px){
+    .projects__grid{grid-template-columns:1fr;gap:48px}
+    .card,.card--featured{grid-column:auto}
+    .card__media{border-radius:16px}
+    .card__body{margin-top:16px;gap:12px}
+    .card__title{font-size:22px}
+    .filters{flex-wrap:nowrap;overflow-x:auto;margin:0 calc(var(--gutter) * -1);padding:0 var(--gutter);scrollbar-width:none}
+    .filters::-webkit-scrollbar{display:none}
+    .chip{white-space:nowrap}
+  }
+
+  /* ===== Блок 3. С кем работала (как на референсе: оранжевый фон, круги в строку) ===== */
+  .section--accent{background:var(--orange);color:var(--cream)}
+  .clients__title{font-family:var(--sans);font-weight:400;font-size:64px;line-height:1.05;letter-spacing:-.02em;text-transform:lowercase;margin-bottom:64px}
+  .people{list-style:none;display:grid;grid-template-columns:repeat(7,1fr);gap:48px 20px}
+  .person__in{display:flex;flex-direction:column;align-items:center;text-align:center}
+  .person__photo{width:100%;max-width:240px;aspect-ratio:1;border-radius:50%;overflow:hidden;background:rgba(252,242,189,.14);display:grid;place-items:center}
+  .person__photo img{width:100%;height:100%;object-fit:cover;transition:scale .6s var(--ease)}
+  .person__photo img.person__logo{width:70%;height:70%;object-fit:contain}
+  .person__photo .ph{border-radius:50%;padding:32px;border-color:rgba(252,242,189,.4);color:var(--cream)}
+  .person__name{margin-top:20px;font-family:var(--sans);font-weight:400;font-size:22px;line-height:1.2}
+  .person__lines{margin-top:12px;font-size:15px;line-height:1.45}
+  .person__lines span{display:block}
+  a.person__in:hover .person__photo img,a.person__in:focus-visible .person__photo img{scale:1.06}
+
+  @media (max-width:1279px){
+    .clients__title{font-size:56px;margin-bottom:48px}
+    .people{grid-template-columns:repeat(3,1fr)}
+    .person__photo{max-width:200px}
+  }
+  @media (max-width:1023px){.people{grid-template-columns:repeat(2,1fr);gap:48px 20px}.person__photo{max-width:220px}}
+  @media (max-width:767px){
+    .clients__title{font-size:40px;margin-bottom:32px}
+    .people{gap:40px 16px}
+    .person__photo{max-width:160px}
+    .person__photo .ph{padding:16px;font-size:10px}
+    .person__photo .ph b{font-size:12px}
+    .person__name{margin-top:16px;font-size:20px}
+    .person__lines{margin-top:8px;font-size:14px}
+  }
+
+  /* ===== Блок 4. Услуги (как на референсе: строки-аккордеоны со стрелкой) ===== */
+  .services{list-style:none;border-bottom:1px solid var(--cream-15)}
+  .service{border-top:1px solid var(--cream-15)}
+  .service__head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:32px 0;text-align:left}
+  .service__title{font-family:var(--sans);font-weight:400;font-size:40px;line-height:1.15;letter-spacing:-.01em}
+  .service__toggle{flex:none;display:inline-flex;align-items:center;justify-content:center;width:88px;height:48px;border:1px solid var(--cream);border-radius:999px;transition:background-color .25s var(--ease),color .25s var(--ease)}
+  .service__toggle svg{width:28px;height:18px;transition:rotate .4s var(--ease)}
+  .service__head:hover .service__toggle,.service__head:focus-visible .service__toggle{background:var(--cream);color:var(--espresso)}
+  .service__head[aria-expanded="true"] .service__toggle svg{rotate:90deg}
+  .service__body{overflow:hidden}
+  .service__body[hidden]{display:none}
+  .service__inner{display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;padding-bottom:40px}
+  .service__list{grid-column:1 / 9;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:16px 24px}
+  .service__list li{position:relative;padding-left:24px;font-size:18px;line-height:1.5;color:var(--cream-70)}
+  .service__list li::before{content:"";position:absolute;left:0;top:.6em;width:8px;height:8px;border-radius:50%;background:var(--orange)}
+  .service__note{grid-column:9 / 13;align-self:end;font-family:var(--mono);font-size:13px;color:var(--cream-70)}
+  .services__cta{margin-top:48px}
+
+  @media (max-width:1279px){
+    .service__title{font-size:32px}
+    .service__inner{grid-template-columns:1fr;row-gap:24px}
+    .service__list,.service__note{grid-column:auto}
+  }
+  @media (max-width:767px){
+    .service__head{padding:24px 0;gap:16px}
+    .service__title{font-size:24px}
+    .service__toggle{width:64px;height:44px}
+    .service__list{grid-template-columns:1fr;gap:12px}
+    .service__list li{font-size:16px}
+    .service__inner{padding-bottom:32px}
+    .services__cta{margin-top:32px}
+    .services__cta .btn{width:100%}
+  }
+
+  /* ===== Блок 5. Как я работаю (как на референсе: три карточки с обводкой) ===== */
+  .ways{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .way{display:flex;flex-direction:column;justify-content:space-between;gap:48px;min-height:280px;padding:32px;border:1px solid var(--cream-15);border-radius:24px;transition:border-color .3s var(--ease),background-color .3s var(--ease)}
+  .way:hover{border-color:var(--cream);background:rgba(39,32,29,.03)}
+  .way__title{font-family:var(--sans);font-weight:400;font-size:32px;line-height:1.15;letter-spacing:-.01em}
+  .way__text{font-size:18px;line-height:1.5;color:var(--cream-70)}
+  .ways__cta{margin-top:48px}
+  @media (max-width:1279px){.way{padding:24px;min-height:240px}.way__title{font-size:28px}.way__text{font-size:16px}}
+  @media (max-width:1023px){.ways{grid-template-columns:1fr;gap:16px}.way{min-height:0;gap:32px}}
+  @media (max-width:767px){.way{padding:20px;border-radius:16px;gap:24px}.way__title{font-size:24px}.ways__cta{margin-top:32px}.ways__cta .btn{width:100%}}
+
+  /* ===== Блок 6. Контакты (как на референсе: крупный ник в Telegram, кнопки-таблетки, фото справа) ===== */
+  .contacts__grid{display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;align-items:center}
+  .contacts__text{grid-column:1 / 7}
+  .contacts__photo{grid-column:8 / 13;border-radius:24px;overflow:hidden;aspect-ratio:4/5}
+  .contacts__photo img{width:100%;height:100%;object-fit:cover}
+  .contacts .clients__title{margin-bottom:48px}
+  .tg{display:inline-block;margin-top:8px;font-family:var(--sans);font-weight:400;font-size:80px;line-height:1.05;letter-spacing:-.02em;background:linear-gradient(currentColor,currentColor) 0 100% / 0 2px no-repeat;transition:background-size .5s var(--ease),color .3s var(--ease)}
+  .tg:hover,.tg:focus-visible{background-size:100% 2px}
+  .contacts__links{margin-top:32px;display:flex;flex-wrap:wrap;gap:12px}
+  .footer{margin-top:96px;padding-top:24px;border-top:1px solid var(--cream-15);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;font-size:14px;color:var(--cream-70)}
+  .footer a{display:inline-flex;align-items:center;min-height:44px}
+  .footer a:hover{color:var(--cream)}
+  @media (max-width:1279px){.tg{font-size:64px}}
+  @media (max-width:1023px){
+    .contacts__grid{grid-template-columns:1fr;row-gap:48px}
+    .contacts__text,.contacts__photo{grid-column:auto}
+    .contacts__photo{aspect-ratio:4/5;max-width:480px}
+  }
+  @media (max-width:767px){
+    .tg{font-size:44px}
+    .contacts .clients__title{margin-bottom:32px}
+    .contacts__links .btn{flex:1 1 auto}
+    .contacts__photo{border-radius:16px}
+    .footer{margin-top:64px;flex-direction:column;align-items:flex-start}
+  }
+
+  /* ===== Страница кейса (открывается поверх сайта) ===== */
+  .case{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:var(--espresso);color:var(--cream);overflow-y:auto;overscroll-behavior:contain}
+  .case::backdrop{background:rgba(39,32,29,.6)}
+  .case__bar{position:sticky;top:0;z-index:2;background:rgba(39,32,29,.86);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--cream-15)}
+  .case__bar .container{height:var(--header-h);display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .case__close{width:44px;height:44px;border-radius:50%;border:1px solid var(--cream-15);position:relative;flex:none;transition:border-color .25s var(--ease)}
+  .case__close:hover{border-color:var(--cream)}
+  .case__close::before,.case__close::after{content:"";position:absolute;left:13px;right:13px;top:21px;height:1.5px;background:var(--cream)}
+  .case__close::before{transform:rotate(45deg)}
+  .case__close::after{transform:rotate(-45deg)}
+
+  .case__intro{padding:64px 0 48px;display:grid;grid-template-columns:repeat(12,1fr);gap:32px 24px}
+  .case__head{grid-column:1 / 8;display:flex;flex-direction:column;gap:24px}
+  .case__title{font-family:var(--sans);font-weight:400;font-size:56px;line-height:1.1;letter-spacing:-.02em}
+  .case__lead{font-size:18px;line-height:1.6;color:var(--cream-70);max-width:36em}
+  .facts{grid-column:9 / 13;display:grid;gap:16px;align-content:start}
+  .facts div{padding-top:16px;border-top:1px solid var(--cream-15)}
+  .facts dt{font-family:var(--mono);font-size:12px;color:var(--cream-70);margin-bottom:4px}
+  .case__cover{border-radius:24px;overflow:hidden;aspect-ratio:16/9;background:rgba(252,242,189,.06)}
+  .case__cover:has(img){aspect-ratio:3/2}
+  .case__cover img,.case__cover video{display:block;width:100%;height:100%;object-fit:cover}
+
+  .steps{list-style:none;padding:96px 0;display:grid;gap:96px;counter-reset:step}
+  .step{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+  .step__text{grid-column:1 / 5;display:flex;flex-direction:column;gap:16px;align-self:start;position:sticky;top:calc(var(--header-h) + 32px)}
+  .step__num{font-family:var(--mono);font-size:13px;color:var(--cream-70)}
+  .step__title{font-family:var(--sans);font-weight:400;font-size:28px;line-height:1.2}
+  .step__desc{color:var(--cream-70)}
+  .step__gallery{grid-column:6 / 13;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .shot{margin:0}
+  .shot--wide{grid-column:1 / -1}
+  .shot__img{border-radius:16px;overflow:hidden;aspect-ratio:3/2;background:rgba(252,242,189,.06)}
+  .shot__img:has(video){aspect-ratio:16/9}
+  .shot__img img,.shot__img video{display:block;width:100%;height:100%;object-fit:cover}
+  .step--text .step__text{grid-column:1 / 8;position:static}
+  .shot figcaption{margin-top:8px;font-size:14px;color:var(--cream-70)}
+  .case__foot{padding:0 0 96px;display:flex;flex-wrap:wrap;gap:16px}
+
+  @media (max-width:1279px){
+    .case__intro{grid-template-columns:1fr}
+    .case__head,.facts{grid-column:auto}
+    .facts{grid-template-columns:repeat(2,1fr);gap:16px 20px}
+    .case__title{font-size:44px}
+    .steps{padding:64px 0;gap:64px}
+    .step{grid-template-columns:1fr}
+    .step__text,.step__gallery{grid-column:auto}
+    .step__text{position:static}
+  }
+  @media (max-width:767px){
+    .case__intro{padding:32px 0}
+    .case__title{font-size:36px}
+    .case__lead{font-size:16px}
+    .facts{grid-template-columns:1fr}
+    .case__cover{border-radius:16px;aspect-ratio:4/3}
+    .steps{padding:48px 0;gap:56px}
+    .step__title{font-size:22px}
+    .step__gallery{grid-template-columns:1fr;gap:16px}
+    .case__foot{padding-bottom:64px}
+    .case__foot .btn{width:100%}
+  }
+  body.case-open{overflow:hidden}
+
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Перейти к&nbsp;содержимому</a>
+
+<!-- ===== Блок 0. Шапка ===== -->
+<header class="header" id="header">
+  <div class="header__in container">
+    <a class="logo" href="#top" aria-label="Оля Синякова, на&nbsp;главную">
+      Оля Синякова
+      <span class="logo__tag">[ дизайнер ]</span>
+    </a>
+
+    <nav class="nav" aria-label="Основная навигация">
+      <ul>
+        <li><a href="#projects">Проекты</a></li>
+        <li><a href="#services">Услуги</a></li>
+      </ul>
+    </nav>
+
+    <a class="btn btn--main header__cta" href="https://t.me/olkostt" target="_blank" rel="noopener">
+      Написать в&nbsp;Telegram
+      <svg class="pen-arrow" viewBox="0 0 24 16" aria-hidden="true"><path fill="currentColor" d="M1.6 9C1.2 8.6 1.5 8 2 8C7 7.4 13.2 7 19.4 7.1L19.6 9.4C13.4 9.4 7.2 9.6 2.3 9.6C2 9.6 1.7 9.3 1.6 9ZM12.8 2.6C13.1 2 13.8 1.9 14.3 2.3C16.9 4.2 19.5 6.1 22.2 7.9L20.6 9.4C18 7.5 15.4 5.5 13.1 3.6C12.8 3.3 12.7 2.9 12.8 2.6ZM22.2 7.9L22.7 8.6C20.1 10.7 17.4 12.7 14.7 14.6C14.1 15 13.3 14.6 13.3 13.9C13.3 13.6 13.5 13.3 13.7 13.1C16.2 11.3 18.6 9.4 20.9 7.4Z"/></svg>
+    </a>
+
+    <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="menu">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="menu" id="menu" aria-label="Меню">
+  <p class="menu__label">[ меню ]</p>
+  <ul>
+    <li><a href="#projects">Проекты <small>[ работы ]</small></a></li>
+    <li><a href="#services">Услуги <small>[ что делаю ]</small></a></li>
+    <li><a href="#contacts">Контакты <small>[ связаться ]</small></a></li>
+  </ul>
+  <div class="menu__foot">
+    <a class="btn btn--main" href="https://t.me/olkostt" target="_blank" rel="noopener">Написать в&nbsp;Telegram</a>
+    <div class="menu__social">
+      <a href="https://instagram.com/olkostt" target="_blank" rel="noopener">Instagram</a>
+      <!-- TODO: добавить WhatsApp или убрать -->
+    </div>
+  </div>
+</div>
+
+<main id="main">
+  <!-- ===== Блок 1. Первый экран ===== -->
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <!-- Фон: видео. Файл выбирается скриптом: hero.mp4 для компьютера, hero-mobile.mp4 для телефона -->
+    <div class="hero__bg">
+      <video class="hero__video" muted loop playsinline preload="none" poster="video/hero-poster.jpg" aria-hidden="true"></video>
+    </div>
+
+    <div class="container">
+      <h1 id="hero-title">Создам дизайн<br>для вашего проекта</h1>
+      <p class="hero__lead">Разработаю логотип, фирменный стиль, презентации и&nbsp;сайт на&nbsp;Тильде (Таплинк) для вашего бизнеса /&nbsp;продукта /&nbsp;онлайн&#8209;курса и&nbsp;мероприятия</p>
+      <div class="hero__actions">
+            <a class="btn btn--outline btn--lg" href="https://t.me/olkostt" target="_blank" rel="noopener">
+          Обсудить проект
+          <svg class="pen-arrow" viewBox="0 0 24 16" aria-hidden="true"><path fill="currentColor" d="M1.6 9C1.2 8.6 1.5 8 2 8C7 7.4 13.2 7 19.4 7.1L19.6 9.4C13.4 9.4 7.2 9.6 2.3 9.6C2 9.6 1.7 9.3 1.6 9ZM12.8 2.6C13.1 2 13.8 1.9 14.3 2.3C16.9 4.2 19.5 6.1 22.2 7.9L20.6 9.4C18 7.5 15.4 5.5 13.1 3.6C12.8 3.3 12.7 2.9 12.8 2.6ZM22.2 7.9L22.7 8.6C20.1 10.7 17.4 12.7 14.7 14.6C14.1 15 13.3 14.6 13.3 13.9C13.3 13.6 13.5 13.3 13.7 13.1C16.2 11.3 18.6 9.4 20.9 7.4Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+  <!-- ===== Блок 2. Проекты =====
+       Карточки собираются из списка PROJECTS в скрипте внизу страницы.
+       Чтобы добавить проект — допиши туда запись и положи фото в папку projects/<id>/ -->
+  <section class="section section--light" id="projects" aria-labelledby="projects-title">
+    <div class="container">
+      <div class="section__head">
+        <h2 class="section__title" id="projects-title">Проекты</h2>
+        <ul class="filters" aria-label="Фильтр проектов"></ul>
+      </div>
+      <div class="projects__grid" id="projects-grid">
+        <noscript><p class="card__text">Чтобы посмотреть проекты, включите JavaScript.</p></noscript>
+      </div>
+    </div>
+  </section>
+  <!-- ===== Блок 3. С кем работала =====
+       Карточки собираются из CLIENTS в скрипте внизу страницы -->
+  <section class="section section--accent" id="clients" aria-labelledby="clients-title">
+    <div class="container">
+      <h2 class="clients__title" id="clients-title">С&nbsp;кем работала</h2>
+      <ul class="people" id="clients-list"></ul>
+    </div>
+  </section>
+  <!-- ===== Блок 4. Услуги =====
+       Строки собираются из SERVICES в скрипте внизу страницы -->
+  <section class="section" id="services" aria-labelledby="services-title">
+    <div class="container">
+      <h2 class="clients__title" id="services-title">Услуги</h2>
+      <ul class="services" id="services-list"></ul>
+      <div class="services__cta">
+        <a class="btn btn--outline btn--lg" href="https://t.me/olkostt" target="_blank" rel="noopener" data-arrow>Обсудить задачу</a>
+      </div>
+    </div>
+  </section>
+  <!-- ===== Блок 5. Как я работаю =====
+       Карточки собираются из WAYS в скрипте внизу страницы -->
+  <section class="section section--light" id="process" aria-labelledby="process-title">
+    <div class="container">
+      <h2 class="clients__title" id="process-title">Как я&nbsp;работаю</h2>
+      <ul class="ways" id="ways-list"></ul>
+      <div class="ways__cta">
+        <a class="btn btn--outline btn--lg" href="https://t.me/olkostt" target="_blank" rel="noopener" data-arrow>Связаться со&nbsp;мной</a>
+      </div>
+    </div>
+  </section>
+  <!-- ===== Блок 6. Контакты ===== -->
+  <section class="section contacts" id="contacts" aria-labelledby="contacts-title">
+    <div class="container">
+      <div class="contacts__grid">
+        <div class="contacts__text">
+          <h2 class="clients__title" id="contacts-title">Свяжитесь со&nbsp;мной</h2>
+          <p class="label">[ телеграм ]</p>
+          <a class="tg" href="https://t.me/olkostt" target="_blank" rel="noopener">@olkostt</a>
+          <div class="contacts__links">
+            <a class="btn btn--outline btn--lg" href="https://t.me/olkostt" target="_blank" rel="noopener" data-arrow>Написать в&nbsp;Telegram</a>
+            <a class="btn btn--outline btn--lg" href="https://instagram.com/olkostt" target="_blank" rel="noopener">Instagram</a>
+          </div>
+        </div>
+        <div class="contacts__photo">
+          <img src="photo/contact.jpg" alt="Оля Синякова с чашкой кофе" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <footer class="footer">
+        <span>©&nbsp;2026 Оля Синякова · графический дизайнер</span>
+        <a href="#top">Наверх ↑</a>
+      </footer>
+    </div>
+  </section>
+</main>
+
+<!-- Страница кейса: наполняется из PROJECTS при открытии -->
+<dialog class="case" id="case" aria-labelledby="case-title">
+  <div class="case__bar">
+    <div class="container">
+      <span class="label" id="case-label"></span>
+      <button class="case__close" type="button" aria-label="Закрыть кейс"></button>
+    </div>
+  </div>
+  <div class="container" id="case-body"></div>
+</dialog>
+
+<script>
+/* ==========================================================================
+   ДАННЫЕ ПРОЕКТОВ — правь только этот список.
+
+   Как добавить проект:
+   1. Скопируй любую запись целиком и поменяй тексты.
+   2. Положи фото и видео в папку projects/<id>/ с теми именами, что указаны в записи.
+      Пока файла нет, на его месте видна заглушка с подсказкой, что положить.
+   3. Порядок записей = порядок карточек на сайте.
+
+   Поля:
+   id        — латиницей, имя папки и адрес кейса (сайт.ру/#koleso)
+   show      — false: проект скрыт с сайта (удобно для черновиков)
+   type      — тип работы, по нему работает фильтр над карточками
+   featured  — true: карточка на всю ширину (для главного проекта)
+   year      — год или null
+   title, summary — название и одна-две фразы для карточки
+   cover     — обложка карточки, горизонтальная 3:2, от 1600×1067
+   coverVideo — видео вместо обложки (mp4); cover тогда служит заставкой
+   hover     — фото, которое проявляется поверх видео при наведении на карточку
+   site      — ссылка на готовый сайт (или null, тогда кнопки нет)
+   lead      — вступление на странице кейса
+   facts     — короткие факты: [подпись, значение]
+   steps     — разделы кейса; в каждом заголовок, текст и медиа
+               медиа: { src: 'фото.jpg' или 'видео.mp4', poster, caption, wide: true — на всю ширину }
+   ========================================================================== */
+const PROJECTS = [
+  {
+    id: 'koleso',
+    type: 'Мерч',
+    year: null,
+    title: 'Джерси для велоклуба «Колесо» (Альфа-Банк)',
+    summary: 'Джерси для гонки в Крылатском: фирменный кот, векторный паттерн и производственная развёртка.',
+    cover: 'projects/koleso/01.jpg',
+    site: null,
+    lead: '«Альфа Велоклуб Колесо» — спортивное сообщество сотрудников и клиентов Альфа-Банка. Я подготовила дизайн джерси для гонки на велотрассе в Крылатском, организованной совместно с Федерацией велосипедного спорта России и Матч ТВ.',
+    facts: [
+      ['Клиент', 'Альфа Велоклуб Колесо, Альфа-Банк'],
+      ['Что сделала', 'Иллюстрация кота, векторный паттерн, производственная развёртка'],
+      ['Событие', 'Гонка в Крылатском с ФВСР и Матч ТВ']
+    ],
+    steps: [
+      { title: 'Задача', text: 'Дизайн джерси придумала команда велоклуба при помощи ИИ. Нужно было превратить идею в форму, которую можно отдать в производство.',
+        images: [{ src: 'projects/koleso/02.jpg', wide: true }] },
+      { title: 'Что сделала', text: 'Отрисовала фирменного кота и векторный паттерн и встроила графику в производственную развёртку с учётом непрокрашиваемых деталей и размерного ряда. Кота разместила так, будто он выглядывает из заднего кармана джерси.',
+        images: [{ src: 'projects/koleso/03.jpg' }, { src: 'projects/koleso/04.jpg' }] },
+      { title: 'Результат', text: 'Форма стала не разовым корпоративным мерчем: участники продолжают носить её на коферайдах и обычных тренировках.',
+        images: [{ src: 'projects/koleso/video.mp4', poster: 'projects/koleso/video-poster.jpg', wide: true }] }
+    ]
+  },
+  {
+    id: 'kolpa-school',
+    type: 'Айдентика',
+    year: null,
+    title: 'Логотип школы веб-дизайна Kolpa School',
+    summary: 'Логотип и цветовая палитра для школы веб-дизайна Вики Колпаковой.',
+    cover: 'projects/kolpa-school/cover.svg',
+    site: 'https://neuro.kolpadesign.ru/',
+    lead: 'Kolpa School — школа веб-дизайна Вики Колпаковой (17K в Instagram). Её курс «Нейродизайнер» учит собирать сайты с нейросетями и Claude Code. Я разработала логотип школы и по пожеланиям заказчицы подобрала цветовую палитру для фирменного стиля.',
+    facts: [
+      ['Клиент', 'Kolpa School, Вика Колпакова'],
+      ['Что сделала', 'Логотип, цветовая палитра фирменного стиля']
+    ],
+    steps: [
+      { title: 'Логотип', text: 'Разработала логотип школы: объёмные наклонные буквы с тенью, как у надписей на скейтах и комиксах. Он держится и на светлом, и на тёмном фоне.',
+        images: [{ src: 'projects/kolpa-school/01-logo-light.svg', wide: true }] },
+      { title: 'Логотип на фирменных цветах', text: 'Проверила, как знак работает на основных цветах стиля — лаймовом и синем.',
+        images: [{ src: 'projects/kolpa-school/02-logo-colors.svg', wide: true }] },
+      { title: 'Цветовая палитра', text: 'По пожеланиям заказчицы подобрала палитру для фирменного стиля: яркие лайм и синий для акцентов, чёрный и графит для фона, молочный и серый для текста.',
+        images: [{ src: 'projects/kolpa-school/03-palette.svg', wide: true }] },
+      { title: 'Логотип и графика сайта', text: 'Логотип работает вместе с графикой школы — молнией и курсором, которые встречаются на сайте курса «Нейродизайнер».',
+        images: [{ src: 'projects/kolpa-school/04-elements.svg', wide: true }] }
+    ]
+  },
+  {
+    id: 'cream-brew',
+    type: 'Мерч',
+    year: null,
+    title: 'Джерси для велоклуба Cream Brew',
+    summary: 'Джерси с нуля для личного велоклуба пары: иллюстрация, маршруты из Strava и производство.',
+    cover: 'projects/cream-brew/01.jpg',
+    site: null,
+    lead: 'С нуля создала дизайн джерси для личного велоклуба пары, познакомившейся на велотреке.',
+    facts: [
+      ['Клиент', 'Велоклуб Cream Brew'],
+      ['Что сделала', 'Иллюстрация, векторная развёртка, контроль производства']
+    ],
+    steps: [
+      { title: 'Идея', text: 'В основе иллюстрации — прозвища пары, Динозавр и Клещ, а фраза Remember to eat напоминает о поддержке во время долгих гонок.',
+        images: [{ src: 'projects/cream-brew/02.jpg', wide: true }] },
+      { title: 'Маршруты на рукавах', text: 'На рукавах изобразила маршруты их первого совместного велопутешествия по Турции: оцифровала их из тренировок в Strava и перевела в векторный рисунок.',
+        images: [{ src: 'projects/cream-brew/video.mp4', poster: 'projects/cream-brew/video-poster.jpg', wide: true }] },
+      { title: 'Производство и результат', text: 'Подготовила векторную развёртку и курировала производство. Джерси понравилось не только заказчикам, но и другим велосипедистам, которые тоже приобрели такие джерси.',
+        images: [{ src: 'projects/cream-brew/03.jpg', wide: true }] }
+    ]
+  },
+  {
+    id: 'chalavek-i-kon',
+    type: 'Айдентика',
+    year: null,
+    title: 'Брендинг кафе «Чалавек и конь»',
+    summary: 'Айдентика кафе-пекарни при конно-спортивном клубе в Беларуси: от вывески до упаковки.',
+    cover: 'projects/chalavek-i-kon/01.jpg',
+    site: null,
+    lead: '«Чалавек и конь» — кафе-пекарня на территории конно-спортивного клуба в Беларуси. Здесь можно поесть, выпить кофе, с комфортом дождаться детей и близких с тренировки, а также купить натуральные угощения для лошади.',
+    facts: [
+      ['Клиент', 'Кафе-пекарня «Чалавек и конь»'],
+      ['Что сделала', 'Айдентика, носители, меню, упаковка']
+    ],
+    steps: [
+      { title: 'Идея', text: 'В основе проекта — эмоциональная связь человека и лошади. Она раскрывается через сочетание современной типографики, живых рукописных элементов и наивных иллюстраций. Айдентика объединяет два характера бренда: функциональность городского кафе и тёплую атмосферу конного клуба.',
+        images: [{ src: 'projects/chalavek-i-kon/02.jpg', wide: true }] },
+      { title: 'Цель', text: 'Создать узнаваемый и целостный образ кафе, который выделит его среди других заведений, сформирует доверие к продукту и сделает пространство привлекательным и для постоянных гостей клуба, и для новых посетителей.',
+        images: [{ src: 'projects/chalavek-i-kon/03.jpg', wide: true }] },
+      { title: 'Задача', text: 'Разработать гибкую айдентику, которая работает во всех точках контакта с гостем: от вывески и интерьера до меню, упаковки, стаканов и соцсетей. Важно было сохранить баланс между премиальностью, естественностью и дружелюбным характером бренда.',
+        images: [{ src: 'projects/chalavek-i-kon/04.jpg', wide: true }] }
+    ]
+  },
+  {
+    id: 'equicenter',
+    type: 'Лендинги',
+    year: null,
+    title: 'Ребрендинг сайта конной школы Equicenter',
+    summary: 'Пересобрала сайт школы верховой езды так, чтобы он вызывал доверие и доводил до пробного занятия.',
+    cover: 'projects/equicenter/after-poster.jpg',
+    site: null,
+    lead: 'Equicenter — конноспортивная школа в Москве, занятие стоит от 6000 ₽. Её выбирают родители для детей и взрослые новички, и решение держится на доверии: безопасны ли лошади, кто тренеры, можно ли сначала попробовать. Сайт должен отвечать на эти вопросы и доводить человека до заявки на пробное занятие.',
+    facts: [
+      ['Клиент', 'Конноспортивная школа Equicenter, Москва'],
+      ['Что сделала', 'Структура, тексты, дизайн сайта'],
+      ['Цель сайта', 'Заявка на пробное занятие']
+    ],
+    steps: [
+      { title: 'Было', text: 'Старый сайт на WordPress выглядел как бесплатный шаблон и не тянул на школу с такими ценами. Прайс стоял сразу под шапкой: посетитель видел 6000–9000 ₽ раньше, чем понимал, что за эти деньги получает. Тренеров и условия приходилось искать в самом низу, а телефона и мессенджера в шапке не было.',
+        images: [{ src: 'projects/equicenter/before.mp4', poster: 'projects/equicenter/before-poster.jpg', caption: 'До', wide: true }] },
+      { title: 'Новая структура', text: 'Перестроила порядок страницы: первый экран с фотографией из манежа и понятным обещанием, дальше — что даёт верховая езда и кому подходит, затем тренеры и только потом цены. К прайсу человек подходит уже прогретым. Телефон и WhatsApp вынесла в шапку, меню собрала из разделов, которые нужны при выборе школы.',
+        images: [] },
+      { title: 'Стало', text: 'Визуальный слой пересобрала заново: крупная типографика, спокойная светлая палитра, живые фотографии вместо стоковых плашек, тексты под голос школы без восклицаний и опечаток. Теперь сайт выглядит как школа уровня своих цен.',
+        images: [{ src: 'projects/equicenter/after.mp4', poster: 'projects/equicenter/after-poster.jpg', caption: 'После', wide: true }] }
+    ]
+  },
+  {
+    id: 'kontur',
+    type: 'Лендинги',
+    year: null,
+    title: 'Лендинг для строительной компании «Контур»',
+    summary: 'Лендинг для компании, которая строит дома из газобетона под ключ, с записью на просмотр объектов.',
+    cover: 'projects/kontur/scroll-poster.jpg',
+    site: null,
+    lead: 'Для компании, которая строит дома из газобетона под ключ, сделала лендинг с главным целевым действием — записью на просмотр готовых объектов.',
+    facts: [
+      ['Клиент', 'Строительная компания «Контур»'],
+      ['Что сделала', 'Структура, дизайн в Figma, адаптивы, сборка на Тильде']
+    ],
+    steps: [
+      { title: 'Как делали', text: 'Вместе с заказчиком выбрали понятную структуру и сдержанный визуальный стиль, передающий надёжность, премиальность и прозрачность. Разработала дизайн в Figma, подготовила адаптивы и собрала сайт на Тильде, дополнив материалы ИИ-рендерами и обработанными изображениями заказчика.',
+        images: [{ src: 'projects/kontur/scroll.mp4', poster: 'projects/kontur/scroll-poster.jpg', wide: true }] }
+    ]
+  },
+  {
+    id: 'kavkaz',
+    show: true, // поставь false, чтобы скрыть, пока нет материалов
+    type: 'Лендинги',
+    year: null,
+    title: 'Лендинг туров по Кавказу',
+    summary: 'Сайт авторского тура «Кавказ. Неделя — от нарзана до звёзд»: маршрут, программа по дням и запись.',
+    cover: 'projects/kavkaz/cover.jpg',
+    site: null,
+    lead: 'ЧЕРНОВИК: для кого тур, какая была задача у сайта и что получилось.',
+    facts: [
+      ['Клиент', 'ЧЕРНОВИК: организатор тура'],
+      ['Что сделала', 'Структура, тексты, дизайн, сайт']
+    ],
+    steps: [
+      { title: 'Задача', text: 'ЧЕРНОВИК', images: [{ src: 'projects/kavkaz/01.jpg', wide: true }] },
+      { title: 'Что сделала', text: 'ЧЕРНОВИК', images: [{ src: 'projects/kavkaz/02.jpg' }, { src: 'projects/kavkaz/03.jpg' }] },
+      { title: 'Результат', text: 'ЧЕРНОВИК', images: [{ src: 'projects/kavkaz/04.jpg', wide: true }] }
+    ]
+  },
+  {
+    id: 'hedonism',
+    type: 'Мерч',
+    year: null,
+    title: 'Лонгсливы для Hedonism Cycling',
+    summary: 'Базовый лонгслив велосообщества, который носят и в городе, и на заездах.',
+    cover: 'projects/hedonism/01.jpg',
+    site: null,
+    lead: 'Hedonism Cycling — международное велосообщество и lifestyle-проект вокруг шоссейных и гравийных путешествий. Команда организует кэмпы и заезды по всему миру, выпускает мерч и проводит райды с Café du Cycliste, Pas Normal Studios и MAAP.',
+    facts: [
+      ['Клиент', 'Hedonism Cycling'],
+      ['Что сделала', 'Дизайн базового лонгслива']
+    ],
+    steps: [
+      { title: 'Что сделала', text: 'Вместе с командой Hedonism Cycling мы создали дизайн базового лонгслива, который можно носить и в городе, и во время велозаездов. На белой основе соединила небольшую надпись спереди с крупной композицией из ценностей сообщества на спине — она хорошо читается даже в движении.',
+        images: [{ src: 'projects/hedonism/02.jpg', wide: true }] },
+      { title: 'Результат', text: 'Лонг стал узнаваемым знаком велокомьюнити: участники носят его по всему миру, замечают друг друга на улицах, знакомятся и начинают кататься вместе.',
+        images: [{ src: 'projects/hedonism/03.jpg', wide: true }, { src: 'projects/hedonism/video.mp4', poster: 'projects/hedonism/video-poster.jpg', wide: true }] }
+    ]
+  }
+];
+
+/* ==========================================================================
+   КЛИЕНТЫ — блок «С кем работала».
+   name  — название
+   lines — 1–3 короткие строки под названием (цифры, факты)
+   logo  — логотип (лучше svg): ставится по центру круга
+   bg    — цвет круга под логотипом
+   photo — вместо логотипа можно квадратное фото, от 600×600: заполняет весь круг
+   case  — id проекта из PROJECTS: карточка станет ссылкой на кейс (или null)
+   ========================================================================== */
+const CLIENTS = [
+  { name: 'Альфа-Банк', lines: ['Велоклуб «Колесо»', 'заезды сезона 2026', '+ гонка с Матч\u00a0ТВ'], logo: 'clients/alfa-bank.svg', bg: '#FAF6EC', case: 'koleso' },
+  { name: 'Саша у моря', lines: ['Inst: 23K', 'онлайн-йога', '+ Take (your) time'], photo: 'clients/sasha-u-morya.jpg', case: null },
+  { name: 'Hedonism Cycling', lines: ['Велокэмпы', 'в 10+ странах', '+ Hedonism House'], logo: 'clients/hedonism.svg', bg: '#000000', case: 'hedonism' },
+  { name: 'Rébellion Clubhouse Moscow', lines: ['Сеть кафе', 'и велокомьюнити', '+ кэмпы в Турции'], logo: 'clients/rebellion.svg', bg: '#FAF6EC', case: null },
+  { name: 'Ikigai CC', lines: ['Inst: 3,4K', 'шоссе, гравий,', 'синглы и фиксы'], logo: 'clients/ikigai-cc.svg', bg: '#000000', case: null },
+  { name: 'Вика Колпакова', lines: ['Inst: 17K', 'школа Kolpa School', '+ курс «Нейродизайнер»'], logo: 'clients/kolpa-school.svg', bg: '#111111', case: 'kolpa-school' },
+  { name: 'Саша Аполосов', lines: ['Telegram: 893', 'канал', 'о велоспорте'], photo: 'clients/apolosov.jpg', case: null }
+];
+
+/* ==========================================================================
+   УСЛУГИ — блок «Услуги». Строки раскрываются по клику.
+   title — название, items — что входит, note — подпись мелким шрифтом (или null)
+   open  — true: строка раскрыта при загрузке
+   ========================================================================== */
+const SERVICES = [
+  { title: 'логотип и фирменный стиль', open: true, items: [
+      'Анализ клиентов и конкурентов',
+      'Разработка логотипа',
+      'Подбор фирменной палитры и шрифтов',
+      'Презентация, гайдбук или брендбук со всеми материалами'
+    ], note: null },
+  { title: 'мерч и спортивная форма', items: [
+      'Иллюстрации и паттерны',
+      'Дизайн джерси, лонгсливов и футболок',
+      'Производственная развёртка с учётом размерного ряда',
+      'Контроль производства'
+    ], note: null },
+  { title: 'сайт на Tilda или Taplink', items: [
+      'Анализ клиентов и конкурентов',
+      'Карта сайта и дизайн-макет',
+      'Сборка сайта на Tilda или Taplink',
+      'Адаптация под все устройства, подключение сервисов и форм'
+    ], note: null },
+  { title: 'графический дизайн', items: [
+      'Рекламные креативы',
+      'Печатная продукция: флайеры, баннеры, визитки, листовки',
+      'Презентации: КП, для вебинаров и выступлений',
+      'Оформление соцсетей: Instagram, YouTube, VK',
+      'ИИ-графика и видео'
+    ], note: null },
+  { title: 'дизайн «под ключ»', items: [
+      'Мероприятие или выставка: фирменный стиль, сайт, афиши, презентация, каталог',
+      'Упаковка проекта: фирменный стиль, сайт, оформление одной из соцсетей',
+      'Выступление: презентация и рекламные креативы'
+    ], note: '[ возможны другие варианты пакета — по согласованию ]' }
+];
+
+/* ==========================================================================
+   КАК Я РАБОТАЮ — карточки блока. title — заголовок, text — пояснение
+   ========================================================================== */
+const WAYS = [
+  { title: 'Погружаюсь в проект', text: 'Разбираю бизнес, аудиторию и конкурентов, чтобы дизайн цеплял нужных людей и работал на задачу.' },
+  { title: 'Со смежными специалистами', text: 'Если проекту нужно, подключаю копирайтера, иллюстратора, бренд-стратега, фотографа или разработчика.' },
+  { title: 'По договору', text: 'Прописываем все условия, сроки и способы оплаты, чтобы обеим сторонам было спокойно.' }
+];
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(() => {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasGsap = typeof gsap !== 'undefined';
+  const animate = hasGsap && !reduce;
+
+  const header = document.getElementById('header');
+  const burger = header.querySelector('.burger');
+  const menu = document.getElementById('menu');
+  const menuItems = menu.querySelectorAll('li, .menu__foot');
+
+  /* --- Появление шапки при загрузке --- */
+  if (animate) {
+    gsap.from('.logo, .nav li, .header__cta, .burger', {
+      y: -16, opacity: 0, duration: .7, ease: 'power3.out', stagger: .06, delay: .1,
+      clearProps: 'transform,opacity'
+    });
+  }
+
+  /* --- Фон при прокрутке и прятанье шапки при скролле вниз --- */
+  let lastY = window.scrollY;
+  let hidden = false;
+  const setHidden = (hide) => {
+    if (hide === hidden) return;
+    hidden = hide;
+    if (animate) gsap.to(header, { yPercent: hide ? -100 : 0, duration: .45, ease: 'power3.out' });
+  };
+  const onScroll = () => {
+    const y = window.scrollY;
+    header.classList.toggle('is-scrolled', y > 8);
+    if (!menu.classList.contains('is-open')) setHidden(y > lastY && y > 200);
+    lastY = y;
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* --- Активный пункт меню --- */
+  const links = document.querySelectorAll('.nav a');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      links.forEach((a) => a.setAttribute('aria-current', a.hash === '#' + e.target.id ? 'true' : 'false'));
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  document.querySelectorAll('main section[id]').forEach((s) => io.observe(s));
+
+  /* --- Мобильное меню --- */
+  const openMenu = () => {
+    menu.classList.add('is-open');
+    document.body.classList.add('menu-open');
+    burger.setAttribute('aria-expanded', 'true');
+    burger.setAttribute('aria-label', 'Закрыть меню');
+    setHidden(false);
+    if (animate) {
+      gsap.fromTo(menu, { opacity: 0 }, { opacity: 1, duration: .3, ease: 'power2.out' });
+      gsap.fromTo(menuItems, { y: 32, opacity: 0 }, { y: 0, opacity: 1, duration: .6, ease: 'power3.out', stagger: .05, delay: .05 });
+    }
+    menu.querySelector('a').focus({ preventScroll: true });
+  };
+  const closeMenu = (returnFocus = true) => {
+    const done = () => {
+      menu.classList.remove('is-open');
+      gsap && animate && gsap.set(menu, { clearProps: 'opacity' });
+    };
+    document.body.classList.remove('menu-open');
+    burger.setAttribute('aria-expanded', 'false');
+    burger.setAttribute('aria-label', 'Открыть меню');
+    if (animate) gsap.to(menu, { opacity: 0, duration: .2, ease: 'power2.in', onComplete: done });
+    else done();
+    if (returnFocus) burger.focus();
+  };
+  burger.addEventListener('click', () => (menu.classList.contains('is-open') ? closeMenu() : openMenu()));
+  menu.querySelectorAll('ul a').forEach((a) => a.addEventListener('click', () => closeMenu(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu.classList.contains('is-open')) closeMenu();
+  });
+  window.matchMedia('(min-width: 861px)').addEventListener('change', (e) => {
+    if (e.matches && menu.classList.contains('is-open')) closeMenu(false);
+  });
+
+  /* ===== Блок 1. Первый экран ===== */
+  /* Фоновое видео: лёгкая версия на телефоне; при «уменьшить движение» остаётся только кадр-заставка */
+  const heroVideo = document.querySelector('.hero__video');
+  if (heroVideo && !reduce) {
+    heroVideo.src = window.matchMedia('(max-width: 767px)').matches ? 'video/hero-mobile.mp4' : 'video/hero.mp4';
+    heroVideo.preload = 'auto';
+    const play = () => heroVideo.play().catch(() => {});
+    play();
+    /* не крутим видео, когда первый экран ушёл за край */
+    new IntersectionObserver(([e]) => (e.isIntersecting ? play() : heroVideo.pause())).observe(heroVideo);
+  }
+
+  if (animate) {
+    const hero = document.querySelector('.hero');
+    const title = hero.querySelector('h1');
+
+    /* Заголовок по словам: каждое слово выезжает из-под маски */
+    const walker = document.createTreeWalker(title, NodeFilter.SHOW_TEXT);
+    const textNodes = [];
+    while (walker.nextNode()) textNodes.push(walker.currentNode);
+    textNodes.forEach((node) => {
+      const frag = document.createDocumentFragment();
+      node.textContent.split(/( )/).forEach((part) => {
+        if (part === ' ' || part === '') { frag.append(part); return; }
+        const w = document.createElement('span');
+        w.className = 'w';
+        w.innerHTML = '<span></span>';
+        w.firstChild.textContent = part;
+        frag.append(w);
+      });
+      node.replaceWith(frag);
+    });
+
+    gsap.timeline({ delay: .3, defaults: { ease: 'power4.out' } })
+      .from('.hero__bg', { scale: 1.08, opacity: 0, duration: 1.8, ease: 'power2.out', clearProps: 'transform,opacity' }, 0)
+      .from(title.querySelectorAll('.w > span'), { yPercent: 110, duration: 1, stagger: .06 }, .2)
+      .from('.hero__lead, .hero__actions', { y: 24, opacity: 0, duration: .8, stagger: .12, clearProps: 'transform,opacity' }, '-=.6');
+  }
+
+  /* ===== Блок 2. Проекты ===== */
+  /* неразрывные пробелы после коротких слов и перед тире — чтобы не следить за ними в данных */
+  const typo = (s) => String(s || '')
+    .replace(/(^|[\s(«])([А-Яа-яЁёA-Za-z]{1,2})\s+/g, '$1$2 ')
+    .replace(/(^|[\s(«])([А-Яа-яЁёA-Za-z]{1,2})\s+/g, '$1$2 ')
+    .replace(/\s+—/g, ' —')
+    .replace(/(\d)\s+(?=\S)/g, '$1 ');
+
+  const el = (tag, cls, text) => {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = typo(text);
+    return n;
+  };
+  const penArrow = () => document.querySelector('.pen-arrow').cloneNode(true);
+
+  /* фото или заглушка с подсказкой, какой файл положить */
+  const placeholder = (src, hint) => {
+    const p = el('div', 'ph');
+    const inner = el('span');
+    inner.append(el('b', null, hint || 'Фото'), document.createTextNode(src));
+    p.append(inner);
+    return p;
+  };
+  const tag = (p) => '[ ' + [p.type.toLowerCase(), p.year].filter(Boolean).join(' · ') + ' ]';
+  /* видео: без звука, по кругу; играет, только пока на экране; при «уменьшить движение» — только заставка */
+  const videoIO = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (e.isIntersecting) e.target.play().catch(() => {}); else e.target.pause();
+  }), { threshold: .25 });
+  const clip = (src, poster, hint) => {
+    const v = document.createElement('video');
+    v.muted = true; v.loop = true; v.playsInline = true;
+    v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+    v.preload = 'metadata';
+    if (poster) v.poster = poster;
+    v.src = src;
+    v.addEventListener('error', () => v.replaceWith(placeholder(src, hint)));
+    if (!reduce) videoIO.observe(v); else v.controls = true;
+    return v;
+  };
+  const picture = (src, alt, hint, poster) => {
+    if (!src) return placeholder('', hint);
+    if (/\.(mp4|webm|mov)$/i.test(src)) return clip(src, poster, hint);
+    const img = new Image();
+    img.src = src;
+    img.alt = alt || '';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.addEventListener('error', () => img.replaceWith(placeholder(src, hint)));
+    return img;
+  };
+
+  const grid = document.getElementById('projects-grid');
+  const filters = document.querySelector('.filters');
+
+  /* карточки */
+  const LIST = PROJECTS.filter((p) => p.show !== false);
+  const cards = LIST.map((p) => {
+    const card = el('article', 'card' + (p.featured ? ' card--featured' : ''));
+    card.dataset.type = p.type;
+
+    const media = el('a', 'card__media');
+    media.href = '#' + p.id;
+    media.setAttribute('aria-label', 'Открыть кейс: ' + p.title);
+    media.append(p.coverVideo ? picture(p.coverVideo, '', 'Видео-обложка', p.cover) : picture(p.cover, '', 'Обложка 3:2, от 1600×1067'));
+    if (p.coverVideo && p.hover) {
+      const hover = new Image();
+      hover.src = p.hover; hover.alt = ''; hover.loading = 'lazy'; hover.decoding = 'async';
+      hover.className = 'card__hover';
+      hover.addEventListener('error', () => hover.remove());
+      media.append(hover);
+    }
+
+    const body = el('div', 'card__body');
+    body.append(el('p', 'label', tag(p)));
+    body.append(el('h3', 'card__title', p.title));
+    body.append(el('p', 'card__text', p.summary));
+
+    const actions = el('div', 'card__actions');
+    const open = el('a', 'btn btn--outline', 'Смотреть кейс');
+    open.href = '#' + p.id;
+    open.append(penArrow());
+    actions.append(open);
+    if (p.site) {
+      const site = el('a', 'link', 'Открыть сайт');
+      site.href = p.site; site.target = '_blank'; site.rel = 'noopener';
+      site.append(penArrow());
+      actions.append(site);
+    }
+    body.append(actions);
+    card.append(media, body);
+    grid.append(card);
+    return card;
+  });
+
+  /* фильтр: «Все» + типы работ в порядке появления */
+  const types = ['Все', ...new Set(LIST.map((p) => p.type))];
+  types.forEach((t, i) => {
+    const li = el('li');
+    const b = el('button', 'chip', t);
+    b.type = 'button';
+    b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+    b.addEventListener('click', () => {
+      filters.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', c === b ? 'true' : 'false'));
+      const shown = cards.filter((c) => {
+        const on = t === 'Все' || c.dataset.type === t;
+        c.hidden = !on;
+        return on;
+      });
+      if (animate) gsap.fromTo(shown, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: .5, ease: 'power3.out', stagger: .06, clearProps: 'transform,opacity' });
+    });
+    li.append(b);
+    filters.append(li);
+  });
+
+  /* появление карточек при прокрутке */
+  if (animate) {
+    gsap.set(cards, { y: 48, opacity: 0 });
+    const cardIO = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        cardIO.unobserve(e.target);
+        gsap.to(e.target, { y: 0, opacity: 1, duration: .9, ease: 'power3.out', clearProps: 'transform,opacity' });
+      });
+    }, { rootMargin: '0px 0px -10% 0px' });
+    cards.forEach((c) => cardIO.observe(c));
+  }
+
+  /* ----- страница кейса ----- */
+  const dialog = document.getElementById('case');
+  const caseBody = document.getElementById('case-body');
+  const caseLabel = document.getElementById('case-label');
+  let opener = null;
+
+  const renderCase = (p) => {
+    caseBody.replaceChildren();
+    caseLabel.textContent = tag(p);
+
+    const intro = el('header', 'case__intro');
+    const head = el('div', 'case__head');
+    const h = el('h2', 'case__title', p.title);
+    h.id = 'case-title';
+    head.append(h, el('p', 'case__lead', p.lead || p.summary));
+    const facts = el('dl', 'facts');
+    (p.facts || []).forEach(([k, v]) => {
+      const row = el('div');
+      row.append(el('dt', null, k), el('dd', null, v));
+      facts.append(row);
+    });
+    intro.append(head, facts);
+
+    const cover = el('div', 'case__cover');
+    cover.append(p.coverVideo ? picture(p.coverVideo, p.title, 'Видео-обложка', p.cover) : picture(p.cover, p.title, 'Обложка'));
+
+    const steps = el('ol', 'steps');
+    (p.steps || []).forEach((s, i) => {
+      const li = el('li', 'step');
+      const text = el('div', 'step__text');
+      text.append(el('span', 'step__num', 'Этап ' + (i + 1)), el('h3', 'step__title', s.title), el('p', 'step__desc', s.text));
+      const gallery = el('div', 'step__gallery');
+      (s.images || []).forEach((im) => {
+        const fig = el('figure', 'shot' + (im.wide ? ' shot--wide' : ''));
+        const box = el('div', 'shot__img');
+        box.append(picture(im.src, im.caption, im.wide ? 'Фото 3:2, от 2000×1333' : 'Фото 3:2, от 1200×800', im.poster));
+        fig.append(box);
+        if (im.caption) fig.append(el('figcaption', null, im.caption));
+        gallery.append(fig);
+      });
+      if (gallery.children.length) li.append(text, gallery); else { li.classList.add('step--text'); li.append(text); }
+      steps.append(li);
+    });
+
+    const foot = el('div', 'case__foot');
+    if (p.site) {
+      const site = el('a', 'btn btn--outline btn--lg', 'Открыть сайт');
+      site.href = p.site; site.target = '_blank'; site.rel = 'noopener';
+      site.append(penArrow());
+      foot.append(site);
+    }
+    const talk = el('a', 'btn btn--main btn--lg', 'Обсудить похожий проект');
+    talk.href = document.querySelector('.header__cta').href;
+    talk.target = '_blank'; talk.rel = 'noopener';
+    talk.append(penArrow());
+    foot.append(talk);
+
+    caseBody.append(intro, cover, steps, foot);
+  };
+
+  const openCase = (id, fromHash) => {
+    const p = LIST.find((x) => x.id === id);
+    if (!p) return;
+    opener = document.activeElement;
+    renderCase(p);
+    if (!dialog.open) dialog.showModal();
+    dialog.scrollTop = 0;
+    document.body.classList.add('case-open');
+    if (!fromHash) history.pushState(null, '', '#' + id);
+    if (animate) gsap.fromTo(caseBody, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .7, ease: 'power3.out', clearProps: 'transform,opacity' });
+  };
+  const closeCase = (fromHash) => {
+    if (!dialog.open) return;
+    dialog.close();
+  };
+  dialog.addEventListener('close', () => {
+    document.body.classList.remove('case-open');
+    if (LIST.some((p) => '#' + p.id === location.hash)) history.pushState(null, '', '#projects');
+    if (opener && opener.focus) opener.focus({ preventScroll: true });
+  });
+  dialog.querySelector('.case__close').addEventListener('click', () => closeCase());
+
+  grid.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    e.preventDefault();
+    openCase(a.hash.slice(1));
+  });
+
+  /* прямая ссылка на кейс (сайт.ру/#jersey) и кнопка «назад» */
+  const syncHash = () => {
+    const id = location.hash.slice(1);
+    if (LIST.some((p) => p.id === id)) openCase(id, true);
+    else closeCase(true);
+  };
+  window.addEventListener('popstate', syncHash);
+  syncHash();
+
+  /* ===== Блок 3. С кем работала ===== */
+  const clientsList = document.getElementById('clients-list');
+  const clientItems = CLIENTS.map((c) => {
+    const li = el('li', 'person');
+    const hasCase = c.case && LIST.some((p) => p.id === c.case);
+    const box = el(hasCase ? 'a' : 'div', 'person__in');
+    const photo = el('div', 'person__photo');
+    if (c.bg) photo.style.background = c.bg;
+    if (c.logo) {
+      const logo = picture(c.logo, c.name, 'Логотип');
+      if (logo.tagName === 'IMG') logo.classList.add('person__logo');
+      logo.addEventListener('error', () => { photo.style.background = ''; });
+      photo.append(logo);
+    } else {
+      photo.append(picture(c.photo, c.name, 'Фото 1:1'));
+    }
+    const text = el('div');
+    const lines = el('p', 'person__lines');
+    (c.lines || []).forEach((l) => lines.append(el('span', null, l)));
+    text.append(el('h3', 'person__name', c.name), lines);
+    box.append(photo, text);
+    if (hasCase) {
+      box.href = '#' + c.case;
+      box.setAttribute('aria-label', c.name + ': открыть кейс');
+      box.addEventListener('click', (e) => { e.preventDefault(); openCase(c.case); });
+    }
+    li.append(box);
+    clientsList.append(li);
+    return li;
+  });
+  if (animate) {
+    gsap.set(clientItems, { y: 32, opacity: 0 });
+    const clientIO = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      clientIO.disconnect();
+      gsap.to(clientItems, { y: 0, opacity: 1, duration: .8, ease: 'power3.out', stagger: .1, clearProps: 'transform,opacity' });
+    }, { rootMargin: '0px 0px -15% 0px' });
+    clientIO.observe(clientsList);
+  }
+
+  /* ===== Блок 4. Услуги ===== */
+  const servicesList = document.getElementById('services-list');
+  document.querySelectorAll('[data-arrow]').forEach((a) => a.append(penArrow()));
+  const serviceRows = SERVICES.map((s, i) => {
+    const li = el('li', 'service');
+    const head = el('button', 'service__head');
+    head.type = 'button';
+    head.id = 'service-head-' + i;
+    head.setAttribute('aria-controls', 'service-body-' + i);
+    head.setAttribute('aria-expanded', s.open ? 'true' : 'false');
+    const h = el('span', 'service__title', s.title);
+    const toggle = el('span', 'service__toggle');
+    toggle.setAttribute('aria-hidden', 'true');
+    toggle.append(penArrow());
+    head.append(h, toggle);
+
+    const body = el('div', 'service__body');
+    body.id = 'service-body-' + i;
+    body.setAttribute('role', 'region');
+    body.setAttribute('aria-labelledby', head.id);
+    body.hidden = !s.open;
+    const inner = el('div', 'service__inner');
+    const list = el('ul', 'service__list');
+    s.items.forEach((it) => list.append(el('li', null, it)));
+    inner.append(list);
+    if (s.note) inner.append(el('p', 'service__note', s.note));
+    body.append(inner);
+
+    head.addEventListener('click', () => {
+      const open = head.getAttribute('aria-expanded') === 'true';
+      head.setAttribute('aria-expanded', open ? 'false' : 'true');
+      if (!animate) { body.hidden = open; return; }
+      if (open) {
+        gsap.to(body, { height: 0, duration: .4, ease: 'power2.inOut', onComplete: () => { body.hidden = true; gsap.set(body, { clearProps: 'height' }); } });
+      } else {
+        body.hidden = false;
+        gsap.fromTo(body, { height: 0 }, { height: 'auto', duration: .5, ease: 'power3.out', clearProps: 'height' });
+        gsap.fromTo(list.children, { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: .4, stagger: .04, delay: .1, clearProps: 'transform,opacity' });
+      }
+    });
+    const heading = el('h3');
+    heading.append(head);
+    li.append(heading, body);
+    servicesList.append(li);
+    return li;
+  });
+  if (animate) {
+    gsap.set(serviceRows, { y: 24, opacity: 0 });
+    const servIO = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      servIO.disconnect();
+      gsap.to(serviceRows, { y: 0, opacity: 1, duration: .7, ease: 'power3.out', stagger: .08, clearProps: 'transform,opacity' });
+    }, { rootMargin: '0px 0px -15% 0px' });
+    servIO.observe(servicesList);
+  }
+
+  /* ===== Блок 5. Как я работаю ===== */
+  const waysList = document.getElementById('ways-list');
+  const wayCards = WAYS.map((w) => {
+    const li = el('li', 'way');
+    li.append(el('h3', 'way__title', w.title), el('p', 'way__text', w.text));
+    waysList.append(li);
+    return li;
+  });
+  if (animate) {
+    gsap.set(wayCards, { y: 32, opacity: 0 });
+    const wayIO = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      wayIO.disconnect();
+      gsap.to(wayCards, { y: 0, opacity: 1, duration: .8, ease: 'power3.out', stagger: .12, clearProps: 'transform,opacity' });
+    }, { rootMargin: '0px 0px -15% 0px' });
+    wayIO.observe(waysList);
+  }
+
+  /* ===== Блок 6. Контакты ===== */
+  if (animate) {
+    const contacts = document.getElementById('contacts');
+    const parts = contacts.querySelectorAll('.contacts__text > *');
+    gsap.set(parts, { y: 32, opacity: 0 });
+    gsap.set('.contacts__photo', { clipPath: 'inset(100% 0 0 0 round 24px)' });
+    const contIO = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      contIO.disconnect();
+      gsap.to(parts, { y: 0, opacity: 1, duration: .8, ease: 'power3.out', stagger: .1, clearProps: 'transform,opacity' });
+      gsap.to('.contacts__photo', { clipPath: 'inset(0% 0 0 0 round 24px)', duration: 1.2, ease: 'power3.inOut', clearProps: 'clipPath' });
+    }, { rootMargin: '0px 0px -20% 0px' });
+    contIO.observe(contacts.querySelector('.contacts__grid'));
+  }
+})();
+</script>
+</body>
+</html>
