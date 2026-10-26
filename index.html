@@ -544,6 +544,7 @@
    Поля:
    id        — латиницей, имя папки и адрес кейса (сайт.ру/#koleso)
    show      — false: проект скрыт с сайта (удобно для черновиков)
+   caseless  — true: без страницы кейса, карточка и кнопка «Смотреть сайт» ведут на site
    type      — тип работы, по нему работает фильтр над карточками
    featured  — true: карточка на всю ширину (для главного проекта)
    year      — год или null
@@ -695,6 +696,16 @@ const PROJECTS = [
     ]
   },
   {
+    id: 'kavkaz',
+    caseless: true, // без страницы кейса: карточка ведёт сразу на сайт
+    type: 'Лендинги',
+    year: null,
+    title: 'Лендинг туров по Кавказу',
+    summary: 'Сайт авторского тура «Кавказ. Неделя — от нарзана до звёзд».',
+    cover: 'projects/kavkaz/cover.jpg',
+    site: 'https://orsinyakova.github.io/kavkaz-nedelya/'
+  },
+  {
     id: 'kontur',
     type: 'Лендинги',
     year: null,
@@ -730,26 +741,6 @@ const PROJECTS = [
         images: [{ src: 'projects/hedonism/02.jpg', wide: true }] },
       { title: 'Результат', text: 'Лонг стал узнаваемым знаком велокомьюнити: участники носят его по всему миру, замечают друг друга на улицах, знакомятся и начинают кататься вместе.',
         images: [{ src: 'projects/hedonism/03.jpg', wide: true }, { src: 'projects/hedonism/video.mp4', poster: 'projects/hedonism/video-poster.jpg', wide: true }] }
-    ]
-  },
-  {
-    id: 'kavkaz',
-    show: false, // скрыт, пока нет материалов; поставь true, чтобы показать
-    type: 'Лендинги',
-    year: null,
-    title: 'Лендинг туров по Кавказу',
-    summary: 'Сайт авторского тура «Кавказ. Неделя — от нарзана до звёзд»: маршрут, программа по дням и запись.',
-    cover: 'projects/kavkaz/cover.jpg',
-    site: null,
-    lead: 'ЧЕРНОВИК: для кого тур, какая была задача у сайта и что получилось.',
-    facts: [
-      ['Клиент', 'ЧЕРНОВИК: организатор тура'],
-      ['Что сделала', 'Структура, тексты, дизайн, сайт']
-    ],
-    steps: [
-      { title: 'Задача', text: 'ЧЕРНОВИК', images: [{ src: 'projects/kavkaz/01.jpg', wide: true }] },
-      { title: 'Что сделала', text: 'ЧЕРНОВИК', images: [{ src: 'projects/kavkaz/02.jpg' }, { src: 'projects/kavkaz/03.jpg' }] },
-      { title: 'Результат', text: 'ЧЕРНОВИК', images: [{ src: 'projects/kavkaz/04.jpg', wide: true }] }
     ]
   }
 ];
@@ -998,13 +989,19 @@ const WAYS = [
 
   /* карточки */
   const LIST = PROJECTS.filter((p) => p.show !== false);
+  const CASES = LIST.filter((p) => !p.caseless);
   const cards = LIST.map((p) => {
     const card = el('article', 'card' + (p.featured ? ' card--featured' : ''));
     card.dataset.type = p.type;
 
     const media = el('a', 'card__media');
-    media.href = '#' + p.id;
-    media.setAttribute('aria-label', 'Открыть кейс: ' + p.title);
+    if (p.caseless) {
+      media.href = p.site; media.target = '_blank'; media.rel = 'noopener';
+      media.setAttribute('aria-label', 'Открыть сайт: ' + p.title);
+    } else {
+      media.href = '#' + p.id;
+      media.setAttribute('aria-label', 'Открыть кейс: ' + p.title);
+    }
     media.append(p.coverVideo ? picture(p.coverVideo, '', 'Видео-обложка', p.cover) : picture(p.cover, '', 'Обложка 3:2, от 1600×1067'));
     if (p.coverVideo && p.hover) {
       const hover = new Image();
@@ -1020,11 +1017,18 @@ const WAYS = [
     body.append(el('p', 'card__text', p.summary));
 
     const actions = el('div', 'card__actions');
-    const open = el('a', 'btn btn--outline', 'Смотреть кейс');
-    open.href = '#' + p.id;
-    open.append(penArrow());
-    actions.append(open);
-    if (p.site) {
+    if (p.caseless) {
+      const site = el('a', 'btn btn--outline', 'Смотреть сайт');
+      site.href = p.site; site.target = '_blank'; site.rel = 'noopener';
+      site.append(penArrow());
+      actions.append(site);
+    } else {
+      const open = el('a', 'btn btn--outline', 'Смотреть кейс');
+      open.href = '#' + p.id;
+      open.append(penArrow());
+      actions.append(open);
+    }
+    if (p.site && !p.caseless) {
       const site = el('a', 'link', 'Открыть сайт');
       site.href = p.site; site.target = '_blank'; site.rel = 'noopener';
       site.append(penArrow());
@@ -1157,7 +1161,7 @@ const WAYS = [
   };
 
   const openCase = (id, fromHash) => {
-    const p = LIST.find((x) => x.id === id);
+    const p = CASES.find((x) => x.id === id);
     if (!p) return;
     opener = document.activeElement;
     renderCase(p);
@@ -1173,7 +1177,7 @@ const WAYS = [
   };
   dialog.addEventListener('close', () => {
     document.body.classList.remove('case-open');
-    if (LIST.some((p) => '#' + p.id === location.hash)) history.pushState(null, '', '#projects');
+    if (CASES.some((p) => '#' + p.id === location.hash)) history.pushState(null, '', '#projects');
     if (opener && opener.focus) opener.focus({ preventScroll: true });
   });
   dialog.querySelector('.case__close').addEventListener('click', () => closeCase());
@@ -1188,7 +1192,7 @@ const WAYS = [
   /* прямая ссылка на кейс (сайт.ру/#jersey) и кнопка «назад» */
   const syncHash = () => {
     const id = location.hash.slice(1);
-    if (LIST.some((p) => p.id === id)) openCase(id, true);
+    if (CASES.some((p) => p.id === id)) openCase(id, true);
     else closeCase(true);
   };
   window.addEventListener('popstate', syncHash);
@@ -1198,7 +1202,7 @@ const WAYS = [
   const clientsList = document.getElementById('clients-list');
   const clientItems = CLIENTS.map((c) => {
     const li = el('li', 'person');
-    const hasCase = c.case && LIST.some((p) => p.id === c.case);
+    const hasCase = c.case && CASES.some((p) => p.id === c.case);
     const box = el(hasCase ? 'a' : 'div', 'person__in');
     const photo = el('div', 'person__photo');
     if (c.bg) photo.style.background = c.bg;
