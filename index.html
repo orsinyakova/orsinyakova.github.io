@@ -6,9 +6,9 @@
 <title>Оля Синякова — дизайнер</title>
 <meta name="description" content="Логотип и фирменный стиль, сайты на Тильде и Таплинке, презентации, креативы и соцсети">
 <meta name="theme-color" content="#27201D">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700&family=Golos+Text:wght@400;500&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+<!-- Шрифты и GSAP лежат в репозитории (assets/), чтобы сайт не зависел от сторонних серверов -->
+<link rel="preload" href="assets/fonts/golos-text-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/fonts/fonts.css">
 <style>
   /* ===== Токены ===== */
   :root{
@@ -785,7 +785,7 @@ const WAYS = [
 ];
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="assets/js/gsap.min.js"></script>
 <script>
 (() => {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
