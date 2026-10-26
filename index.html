@@ -342,6 +342,7 @@
   .shot--wide{grid-column:1 / -1}
   .shot__img{border-radius:16px;overflow:hidden;aspect-ratio:3/2;background:rgba(252,242,189,.06)}
   .shot__img:has(video){aspect-ratio:16/9}
+  .shot--tall .shot__img{aspect-ratio:4/5}
   .shot__img img,.shot__img video{display:block;width:100%;height:100%;object-fit:cover}
   .step--text .step__text{grid-column:1 / 8;position:static}
   .shot figcaption{margin-top:8px;font-size:14px;color:var(--cream-70)}
@@ -547,7 +548,7 @@
    lead      — вступление на странице кейса
    facts     — короткие факты: [подпись, значение]
    steps     — разделы кейса; в каждом заголовок, текст и медиа
-               медиа: { src: 'фото.jpg' или 'видео.mp4', poster, caption, wide: true — на всю ширину }
+               медиа: { src: 'фото.jpg' или 'видео.mp4', poster, caption, wide: true — на всю ширину, tall: true — вертикальное 4:5 }
    ========================================================================== */
 const PROJECTS = [
   {
@@ -617,6 +618,28 @@ const PROJECTS = [
         images: [{ src: 'projects/cream-brew/video.mp4', poster: 'projects/cream-brew/video-poster.jpg', wide: true }] },
       { title: 'Производство и результат', text: 'Подготовила векторную развёртку и курировала производство. Джерси понравилось не только заказчикам, но и другим велосипедистам, которые тоже приобрели такие джерси.',
         images: [{ src: 'projects/cream-brew/03.jpg', wide: true }] }
+    ]
+  },
+  {
+    id: 'team-of-power',
+    type: 'Мерч',
+    year: null,
+    title: 'Велоформа для Team of Power',
+    summary: 'Командная велоформа с насыщенными градиентами, которая выделяется в пелотоне.',
+    cover: 'projects/team-of-power/01.jpg',
+    site: null,
+    lead: 'Team of Power — любительская шоссейная команда, объединяющая сильных спортсменов, среди которых Александр Аполосов и Дмитрий Шеваров. Главная задача — создать форму, которая выделяется в пелотоне.',
+    facts: [
+      ['Клиент', 'Team of Power, любительская шоссейная команда'],
+      ['Что сделала', 'Дизайн велоформы, градиенты в векторе, подготовка к печати']
+    ],
+    steps: [
+      { title: 'Задача', text: 'Создать форму, которая выделяется в пелотоне и узнаётся издалека.',
+        images: [{ src: 'projects/team-of-power/01.jpg', wide: true }] },
+      { title: 'Цвет и градиенты', text: 'В основе дизайна — насыщенные цветовые градиенты: джерси смотрятся ярко, выразительно и динамично и подчёркивают энергию команды.',
+        images: [{ src: 'projects/team-of-power/02.jpg', tall: true }, { src: 'projects/team-of-power/03.jpg', tall: true }] },
+      { title: 'Подготовка к печати', text: 'Продумала все нюансы печати у подрядчика: расположение швов и переходы между панелями. Учитывали, как элементы читаются в аэро-посадке и на скорости. Все градиенты сделала в векторе, как требовал подрядчик.',
+        images: [{ src: 'projects/team-of-power/04.jpg', wide: true }] }
     ]
   },
   {
@@ -740,7 +763,7 @@ const CLIENTS = [
   { name: 'Rébellion Clubhouse Moscow', lines: ['Сеть кафе', 'и велокомьюнити', '+ кэмпы в Турции'], logo: 'clients/rebellion.svg', bg: '#FAF6EC', case: null },
   { name: 'Ikigai CC', lines: ['Inst*: 3,4K', 'шоссе, гравий,', 'синглы и фиксы'], logo: 'clients/ikigai-cc.svg', bg: '#000000', case: null },
   { name: 'Вика Колпакова', lines: ['Inst*: 17K', 'школа Kolpa School', '+ курс «Нейродизайнер»'], logo: 'clients/kolpa-school.svg', bg: '#111111', case: 'kolpa-school' },
-  { name: 'Саша Аполосов', lines: ['Telegram: 893', 'канал', 'о велоспорте'], photo: 'clients/apolosov.jpg', case: null }
+  { name: 'Саша Аполосов', lines: ['Telegram: 893', 'канал', 'о велоспорте'], photo: 'clients/apolosov.jpg', case: 'team-of-power' }
 ];
 
 /* ==========================================================================
@@ -1072,7 +1095,7 @@ const WAYS = [
       text.append(el('span', 'step__num', 'Этап ' + (i + 1)), el('h3', 'step__title', s.title), el('p', 'step__desc', s.text));
       const gallery = el('div', 'step__gallery');
       (s.images || []).forEach((im) => {
-        const fig = el('figure', 'shot' + (im.wide ? ' shot--wide' : ''));
+        const fig = el('figure', 'shot' + (im.wide ? ' shot--wide' : '') + (im.tall ? ' shot--tall' : ''));
         const box = el('div', 'shot__img');
         box.append(picture(im.src, im.caption, im.wide ? 'Фото 3:2, от 2000×1333' : 'Фото 3:2, от 1200×800', im.poster));
         fig.append(box);
