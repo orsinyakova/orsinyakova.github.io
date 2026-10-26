@@ -65,12 +65,12 @@
 
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:44px;padding:0 22px;border-radius:999px;font-size:15px;font-weight:500;white-space:nowrap;transition:scale .25s var(--ease),background-color .25s var(--ease),color .25s var(--ease)}
   .btn--main{background:var(--orange);color:var(--cream)}
-  .btn--main:hover{background:var(--cream);color:var(--espresso)}
+  .btn--main:hover,.btn--main:focus-visible{background:var(--cream);color:var(--espresso)}
   /* scale, а не transform: transform занят анимацией GSAP */
   .btn--main:active{scale:.97}
   /* кнопка с обводкой: спокойнее, не спорит с заголовком */
   .btn--outline{border:1px solid var(--cream);color:var(--cream);background:rgba(39,32,29,.2);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-  .btn--outline:hover{background:var(--cream);color:var(--espresso)}
+  .btn--outline:hover,.btn--outline:focus-visible{background:var(--cream);color:var(--espresso)}
   .btn--outline:active{scale:.97}
   .btn svg{width:16px;height:16px;flex:none}
   .btn .pen-arrow{width:24px;height:16px}
@@ -167,6 +167,9 @@
   .projects__more[hidden]{display:none}
   /* в светлой секции цвета перевёрнуты — возвращаем оранжевой кнопке сливочный текст */
   .section--light .btn--main{color:#FCF2BD}
+  /* наведение в светлой секции: правило выше с прозрачным фоном перебивало заливку, и текст пропадал */
+  .section--light .btn--outline:hover,.section--light .btn--outline:focus-visible{background:var(--cream);color:var(--espresso)}
+  .section--light .btn--main:hover,.section--light .btn--main:focus-visible{background:var(--cream);color:#FCF2BD}
   .card--featured{grid-column:1 / -1;display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;align-items:end}
   .card--featured .card__media{grid-column:1 / 8}
   .card--featured .card__body{grid-column:8 / 13;margin-top:0}
