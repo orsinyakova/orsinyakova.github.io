@@ -290,6 +290,7 @@
   .footer{margin-top:96px;padding-top:24px;border-top:1px solid var(--cream-15);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;font-size:14px;color:var(--cream-70)}
   .footer a{display:inline-flex;align-items:center;min-height:44px}
   .footer a:hover{color:var(--cream)}
+  .footer__note{flex-basis:100%;font-size:12px;line-height:1.5}
   @media (max-width:1279px){.tg{font-size:64px}}
   @media (max-width:1023px){
     .contacts__grid{grid-template-columns:1fr;row-gap:48px}
@@ -412,7 +413,7 @@
   <div class="menu__foot">
     <a class="btn btn--main" href="https://t.me/olkostt" target="_blank" rel="noopener">Написать в&nbsp;Telegram</a>
     <div class="menu__social">
-      <a href="https://instagram.com/olkostt" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://instagram.com/olkostt" target="_blank" rel="noopener">Instagram*</a>
       <!-- TODO: добавить WhatsApp или убрать -->
     </div>
   </div>
@@ -491,7 +492,7 @@
           <a class="tg" href="https://t.me/olkostt" target="_blank" rel="noopener">@olkostt</a>
           <div class="contacts__links">
             <a class="btn btn--outline btn--lg" href="https://t.me/olkostt" target="_blank" rel="noopener" data-arrow>Написать в&nbsp;Telegram</a>
-            <a class="btn btn--outline btn--lg" href="https://instagram.com/olkostt" target="_blank" rel="noopener">Instagram</a>
+            <a class="btn btn--outline btn--lg" href="https://instagram.com/olkostt" target="_blank" rel="noopener">Instagram*</a>
           </div>
         </div>
         <div class="contacts__photo">
@@ -501,6 +502,7 @@
       <footer class="footer">
         <span>©&nbsp;2026 Оля Синякова · графический дизайнер</span>
         <a href="#top">Наверх ↑</a>
+        <p class="footer__note">*Instagram принадлежит компании Meta, признанной экстремистской организацией и&nbsp;запрещённой в&nbsp;России.</p>
       </footer>
     </div>
   </section>
@@ -575,7 +577,7 @@ const PROJECTS = [
     summary: 'Логотип и цветовая палитра для школы веб-дизайна Вики Колпаковой.',
     cover: 'projects/kolpa-school/cover.svg',
     site: 'https://neuro.kolpadesign.ru/',
-    lead: 'Kolpa School — школа веб-дизайна Вики Колпаковой (17K в Instagram). Её курс «Нейродизайнер» учит собирать сайты с нейросетями и Claude Code. Я разработала логотип школы и по пожеланиям заказчицы подобрала цветовую палитру для фирменного стиля.',
+    lead: 'Kolpa School — школа веб-дизайна Вики Колпаковой (17K в Instagram*). Её курс «Нейродизайнер» учит собирать сайты с нейросетями и Claude Code. Я разработала логотип школы и по пожеланиям заказчицы подобрала цветовую палитру для фирменного стиля.',
     facts: [
       ['Клиент', 'Kolpa School, Вика Колпакова'],
       ['Что сделала', 'Логотип, цветовая палитра фирменного стиля']
@@ -729,11 +731,11 @@ const PROJECTS = [
    ========================================================================== */
 const CLIENTS = [
   { name: 'Альфа-Банк', lines: ['Велоклуб «Колесо»', 'заезды сезона 2026', '+ гонка с Матч\u00a0ТВ'], logo: 'clients/alfa-bank.svg', bg: '#FAF6EC', case: 'koleso' },
-  { name: 'Саша у моря', lines: ['Inst: 23K', 'онлайн-йога', '+ Take (your) time'], photo: 'clients/sasha-u-morya.jpg', case: null },
+  { name: 'Саша у моря', lines: ['Inst*: 23K', 'онлайн-йога', '+ Take (your) time'], photo: 'clients/sasha-u-morya.jpg', case: null },
   { name: 'Hedonism Cycling', lines: ['Велокэмпы', 'в 10+ странах', '+ Hedonism House'], logo: 'clients/hedonism.svg', bg: '#000000', case: 'hedonism' },
   { name: 'Rébellion Clubhouse Moscow', lines: ['Сеть кафе', 'и велокомьюнити', '+ кэмпы в Турции'], logo: 'clients/rebellion.svg', bg: '#FAF6EC', case: null },
-  { name: 'Ikigai CC', lines: ['Inst: 3,4K', 'шоссе, гравий,', 'синглы и фиксы'], logo: 'clients/ikigai-cc.svg', bg: '#000000', case: null },
-  { name: 'Вика Колпакова', lines: ['Inst: 17K', 'школа Kolpa School', '+ курс «Нейродизайнер»'], logo: 'clients/kolpa-school.svg', bg: '#111111', case: 'kolpa-school' },
+  { name: 'Ikigai CC', lines: ['Inst*: 3,4K', 'шоссе, гравий,', 'синглы и фиксы'], logo: 'clients/ikigai-cc.svg', bg: '#000000', case: null },
+  { name: 'Вика Колпакова', lines: ['Inst*: 17K', 'школа Kolpa School', '+ курс «Нейродизайнер»'], logo: 'clients/kolpa-school.svg', bg: '#111111', case: 'kolpa-school' },
   { name: 'Саша Аполосов', lines: ['Telegram: 893', 'канал', 'о велоспорте'], photo: 'clients/apolosov.jpg', case: null }
 ];
 
@@ -765,7 +767,7 @@ const SERVICES = [
       'Рекламные креативы',
       'Печатная продукция: флайеры, баннеры, визитки, листовки',
       'Презентации: КП, для вебинаров и выступлений',
-      'Оформление соцсетей: Instagram, YouTube, VK',
+      'Оформление соцсетей: Instagram*, YouTube, VK',
       'ИИ-графика и видео'
     ], note: null },
   { title: 'дизайн «под ключ»', items: [
