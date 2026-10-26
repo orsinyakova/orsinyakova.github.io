@@ -163,6 +163,8 @@
   .projects__grid{display:grid;grid-template-columns:repeat(12,1fr);gap:48px 24px}
   .card{grid-column:span 6;display:flex;flex-direction:column}
   .card[hidden]{display:none}
+  .projects__more{margin-top:48px;display:flex;justify-content:center}
+  .projects__more[hidden]{display:none}
   .card--featured{grid-column:1 / -1;display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;align-items:end}
   .card--featured .card__media{grid-column:1 / 8}
   .card--featured .card__body{grid-column:8 / 13;margin-top:0}
@@ -455,6 +457,9 @@
       <div class="projects__grid" id="projects-grid">
         <noscript><p class="card__text">Чтобы посмотреть проекты, включите JavaScript.</p></noscript>
       </div>
+      <div class="projects__more" hidden>
+        <button class="btn btn--outline btn--lg" type="button" aria-controls="projects-grid"></button>
+      </div>
     </div>
   </section>
   <!-- ===== Блок 3. С кем работала =====
@@ -599,6 +604,28 @@ const PROJECTS = [
     ]
   },
   {
+    id: 'chalavek-i-kon',
+    type: 'Айдентика',
+    year: null,
+    title: 'Брендинг кафе «Чалавек и конь»',
+    summary: 'Айдентика кафе-пекарни при конно-спортивном клубе в Беларуси: от вывески до упаковки.',
+    cover: 'projects/chalavek-i-kon/01.jpg',
+    site: null,
+    lead: '«Чалавек и конь» — кафе-пекарня на территории конно-спортивного клуба в Беларуси. Здесь можно поесть, выпить кофе, с комфортом дождаться детей и близких с тренировки, а также купить натуральные угощения для лошади.',
+    facts: [
+      ['Клиент', 'Кафе-пекарня «Чалавек и конь»'],
+      ['Что сделала', 'Айдентика, носители, меню, упаковка']
+    ],
+    steps: [
+      { title: 'Идея', text: 'В основе проекта — эмоциональная связь человека и лошади. Она раскрывается через сочетание современной типографики, живых рукописных элементов и наивных иллюстраций. Айдентика объединяет два характера бренда: функциональность городского кафе и тёплую атмосферу конного клуба.',
+        images: [{ src: 'projects/chalavek-i-kon/02.jpg', wide: true }] },
+      { title: 'Цель', text: 'Создать узнаваемый и целостный образ кафе, который выделит его среди других заведений, сформирует доверие к продукту и сделает пространство привлекательным и для постоянных гостей клуба, и для новых посетителей.',
+        images: [{ src: 'projects/chalavek-i-kon/03.jpg', wide: true }] },
+      { title: 'Задача', text: 'Разработать гибкую айдентику, которая работает во всех точках контакта с гостем: от вывески и интерьера до меню, упаковки, стаканов и соцсетей. Важно было сохранить баланс между премиальностью, естественностью и дружелюбным характером бренда.',
+        images: [{ src: 'projects/chalavek-i-kon/04.jpg', wide: true }] }
+    ]
+  },
+  {
     id: 'cream-brew',
     type: 'Мерч',
     year: null,
@@ -643,28 +670,6 @@ const PROJECTS = [
     ]
   },
   {
-    id: 'chalavek-i-kon',
-    type: 'Айдентика',
-    year: null,
-    title: 'Брендинг кафе «Чалавек и конь»',
-    summary: 'Айдентика кафе-пекарни при конно-спортивном клубе в Беларуси: от вывески до упаковки.',
-    cover: 'projects/chalavek-i-kon/01.jpg',
-    site: null,
-    lead: '«Чалавек и конь» — кафе-пекарня на территории конно-спортивного клуба в Беларуси. Здесь можно поесть, выпить кофе, с комфортом дождаться детей и близких с тренировки, а также купить натуральные угощения для лошади.',
-    facts: [
-      ['Клиент', 'Кафе-пекарня «Чалавек и конь»'],
-      ['Что сделала', 'Айдентика, носители, меню, упаковка']
-    ],
-    steps: [
-      { title: 'Идея', text: 'В основе проекта — эмоциональная связь человека и лошади. Она раскрывается через сочетание современной типографики, живых рукописных элементов и наивных иллюстраций. Айдентика объединяет два характера бренда: функциональность городского кафе и тёплую атмосферу конного клуба.',
-        images: [{ src: 'projects/chalavek-i-kon/02.jpg', wide: true }] },
-      { title: 'Цель', text: 'Создать узнаваемый и целостный образ кафе, который выделит его среди других заведений, сформирует доверие к продукту и сделает пространство привлекательным и для постоянных гостей клуба, и для новых посетителей.',
-        images: [{ src: 'projects/chalavek-i-kon/03.jpg', wide: true }] },
-      { title: 'Задача', text: 'Разработать гибкую айдентику, которая работает во всех точках контакта с гостем: от вывески и интерьера до меню, упаковки, стаканов и соцсетей. Важно было сохранить баланс между премиальностью, естественностью и дружелюбным характером бренда.',
-        images: [{ src: 'projects/chalavek-i-kon/04.jpg', wide: true }] }
-    ]
-  },
-  {
     id: 'equicenter',
     type: 'Лендинги',
     year: null,
@@ -706,26 +711,6 @@ const PROJECTS = [
     ]
   },
   {
-    id: 'kavkaz',
-    show: false, // скрыт, пока нет материалов; поставь true, чтобы показать
-    type: 'Лендинги',
-    year: null,
-    title: 'Лендинг туров по Кавказу',
-    summary: 'Сайт авторского тура «Кавказ. Неделя — от нарзана до звёзд»: маршрут, программа по дням и запись.',
-    cover: 'projects/kavkaz/cover.jpg',
-    site: null,
-    lead: 'ЧЕРНОВИК: для кого тур, какая была задача у сайта и что получилось.',
-    facts: [
-      ['Клиент', 'ЧЕРНОВИК: организатор тура'],
-      ['Что сделала', 'Структура, тексты, дизайн, сайт']
-    ],
-    steps: [
-      { title: 'Задача', text: 'ЧЕРНОВИК', images: [{ src: 'projects/kavkaz/01.jpg', wide: true }] },
-      { title: 'Что сделала', text: 'ЧЕРНОВИК', images: [{ src: 'projects/kavkaz/02.jpg' }, { src: 'projects/kavkaz/03.jpg' }] },
-      { title: 'Результат', text: 'ЧЕРНОВИК', images: [{ src: 'projects/kavkaz/04.jpg', wide: true }] }
-    ]
-  },
-  {
     id: 'hedonism',
     type: 'Мерч',
     year: null,
@@ -743,6 +728,26 @@ const PROJECTS = [
         images: [{ src: 'projects/hedonism/02.jpg', wide: true }] },
       { title: 'Результат', text: 'Лонг стал узнаваемым знаком велокомьюнити: участники носят его по всему миру, замечают друг друга на улицах, знакомятся и начинают кататься вместе.',
         images: [{ src: 'projects/hedonism/03.jpg', wide: true }, { src: 'projects/hedonism/video.mp4', poster: 'projects/hedonism/video-poster.jpg', wide: true }] }
+    ]
+  },
+  {
+    id: 'kavkaz',
+    show: false, // скрыт, пока нет материалов; поставь true, чтобы показать
+    type: 'Лендинги',
+    year: null,
+    title: 'Лендинг туров по Кавказу',
+    summary: 'Сайт авторского тура «Кавказ. Неделя — от нарзана до звёзд»: маршрут, программа по дням и запись.',
+    cover: 'projects/kavkaz/cover.jpg',
+    site: null,
+    lead: 'ЧЕРНОВИК: для кого тур, какая была задача у сайта и что получилось.',
+    facts: [
+      ['Клиент', 'ЧЕРНОВИК: организатор тура'],
+      ['Что сделала', 'Структура, тексты, дизайн, сайт']
+    ],
+    steps: [
+      { title: 'Задача', text: 'ЧЕРНОВИК', images: [{ src: 'projects/kavkaz/01.jpg', wide: true }] },
+      { title: 'Что сделала', text: 'ЧЕРНОВИК', images: [{ src: 'projects/kavkaz/02.jpg' }, { src: 'projects/kavkaz/03.jpg' }] },
+      { title: 'Результат', text: 'ЧЕРНОВИК', images: [{ src: 'projects/kavkaz/04.jpg', wide: true }] }
     ]
   }
 ];
@@ -1029,6 +1034,38 @@ const WAYS = [
     return card;
   });
 
+  /* сначала видно PREVIEW проектов, остальные открываются кнопкой «Показать ещё» */
+  const PREVIEW = 6;
+  const moreBox = document.querySelector('.projects__more');
+  const moreBtn = moreBox.querySelector('button');
+  let expanded = false;
+  let currentType = 'Все';
+  const plural = (n) => (n % 10 === 1 && n % 100 !== 11 ? 'проект' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'проекта' : 'проектов');
+  const applyView = () => {
+    const shown = [];
+    let index = 0;
+    cards.forEach((c) => {
+      const match = currentType === 'Все' || c.dataset.type === currentType;
+      const capped = currentType === 'Все' && !expanded && index >= PREVIEW;
+      if (match) index++;
+      c.hidden = !match || capped;
+      if (!c.hidden) shown.push(c);
+    });
+    const rest = cards.length - PREVIEW;
+    moreBox.hidden = currentType !== 'Все' || expanded || rest <= 0;
+    moreBtn.textContent = 'Показать ещё ' + rest + '\u00a0' + plural(rest);
+    moreBtn.append(penArrow());
+    return shown;
+  };
+  applyView();
+  moreBtn.addEventListener('click', () => {
+    const before = cards.filter((c) => !c.hidden);
+    expanded = true;
+    const added = applyView().filter((c) => !before.includes(c));
+    if (added[0]) added[0].querySelector('a').focus({ preventScroll: true });
+    if (animate) gsap.fromTo(added, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: .6, ease: 'power3.out', stagger: .08, clearProps: 'transform,opacity' });
+  });
+
   /* фильтр: «Все» + типы работ в порядке появления */
   const types = ['Все', ...new Set(LIST.map((p) => p.type))];
   types.forEach((t, i) => {
@@ -1038,11 +1075,8 @@ const WAYS = [
     b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
     b.addEventListener('click', () => {
       filters.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', c === b ? 'true' : 'false'));
-      const shown = cards.filter((c) => {
-        const on = t === 'Все' || c.dataset.type === t;
-        c.hidden = !on;
-        return on;
-      });
+      currentType = t;
+      const shown = applyView();
       if (animate) gsap.fromTo(shown, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: .5, ease: 'power3.out', stagger: .06, clearProps: 'transform,opacity' });
     });
     li.append(b);
