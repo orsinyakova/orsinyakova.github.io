@@ -460,7 +460,7 @@
   <p class="menu__label">[ меню ]</p>
   <ul>
     <li><a href="#projects">Проекты <small>[ работы ]</small></a></li>
-    <li><a href="#services">Услуги <small>[ что делаю ]</small></a></li>
+    <li><a href="#services">Услуги <small>[ что&nbsp;делаю ]</small></a></li>
     <li><a href="#contacts">Контакты <small>[ связаться ]</small></a></li>
   </ul>
   <div class="menu__foot">
@@ -481,8 +481,8 @@
     </div>
 
     <div class="container">
-      <h1 id="hero-title">Создам дизайн<br>для вашего проекта</h1>
-      <p class="hero__lead">Разработаю логотип, фирменный стиль, презентации и&nbsp;сайт на&nbsp;Тильде (а&nbsp;можно и&nbsp;без неё) для вашего бизнеса /&nbsp;продукта /&nbsp;онлайн&#8209;курса и&nbsp;мероприятия</p>
+      <h1 id="hero-title">Создам дизайн<br>для&nbsp;вашего проекта</h1>
+      <p class="hero__lead">Разработаю логотип, фирменный стиль, презентации и&nbsp;сайт на&nbsp;Тильде (а&nbsp;можно и&nbsp;без&nbsp;неё) для&nbsp;вашего бизнеса /&nbsp;продукта /&nbsp;онлайн&#8209;курса и&nbsp;мероприятия</p>
       <div class="hero__actions">
             <a class="btn btn--outline btn--lg" href="https://t.me/olkostt" target="_blank" rel="noopener">
           Обсудить проект
@@ -531,7 +531,7 @@
        Карточки собираются из WAYS в скрипте внизу страницы -->
   <section class="section section--light" id="process" aria-labelledby="process-title">
     <div class="container">
-      <h2 class="clients__title" id="process-title">Как я&nbsp;работаю</h2>
+      <h2 class="clients__title" id="process-title">Как&nbsp;я&nbsp;работаю</h2>
       <ul class="ways" id="ways-list"></ul>
       <div class="ways__cta">
         <a class="btn btn--outline btn--lg" href="https://t.me/olkostt" target="_blank" rel="noopener" data-arrow>Связаться со&nbsp;мной</a>
@@ -556,7 +556,7 @@
         </div>
       </div>
       <footer class="footer">
-        <span>©&nbsp;2026 Оля Синякова · графический дизайнер</span>
+        <span>©&nbsp;2026&nbsp;Оля Синякова · графический дизайнер</span>
         <a href="#top">Наверх ↑</a>
         <p class="footer__note">*Instagram принадлежит компании Meta, признанной экстремистской организацией и&nbsp;запрещённой в&nbsp;России.</p>
       </footer>
@@ -1013,10 +1013,12 @@ const WAYS = [
 
   /* ===== Блок 2. Проекты ===== */
   /* неразрывные пробелы после коротких слов и перед тире — чтобы не следить за ними в данных */
+  /* неразрывные пробелы: после коротких слов и предлогов, перед частицами и тире, после чисел */
+  const SHORT_WORDS = '[А-Яа-яЁёA-Za-z]{1,2}|для|без|над|под|при|про|или|как|что|это|все|всё|его|их|чем|где|так';
   const typo = (s) => String(s || '')
-    .replace(/(^|[\s(«])([А-Яа-яЁёA-Za-z]{1,2})\s+/g, '$1$2 ')
-    .replace(/(^|[\s(«])([А-Яа-яЁёA-Za-z]{1,2})\s+/g, '$1$2 ')
-    .replace(/\s+—/g, ' —')
+    .replace(new RegExp('(?<=^|[\\s(«"/])(' + SHORT_WORDS + ')\\s+(?=\\S)', 'giu'), '$1 ')
+    .replace(/\s+(бы|ли|же)(?=[\s,.!?;:)»]|$)/giu, ' $1')
+    .replace(/\s+([—–])/g, ' $1')
     .replace(/(\d)\s+(?=\S)/g, '$1 ');
 
   const el = (tag, cls, text) => {
