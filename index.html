@@ -7,14 +7,19 @@
 <meta name="description" content="Логотип и фирменный стиль, сайты на Тильде и Таплинке, презентации, креативы и соцсети">
 <meta name="theme-color" content="#27201D">
 <script>
-  /* Заставка «О пишется пером»: один раз за визит; без JS и при «уменьшить движение» её нет */
+  /* Заставка «О пишется пером»: появляется, только если страница грузится дольше 0,4 с.
+     Без JS и при «уменьшить движение» её нет. */
   (function () {
     try {
-      if (!matchMedia('(prefers-reduced-motion: reduce)').matches && !sessionStorage.getItem('loaderSeen')) {
-        document.documentElement.classList.add('is-loading');
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var root = document.documentElement;
+      setTimeout(function () {
+        if (document.readyState === 'complete' || root.classList.contains('is-ready')) return;
+        root.classList.add('is-loading');
+        document.dispatchEvent(new Event('loader:show'));
         /* страховка: если что-то пошло не так, через 7 с заставка исчезнет сама */
-        setTimeout(function () { document.documentElement.classList.remove('is-loading'); }, 7000);
-      }
+        setTimeout(function () { root.classList.remove('is-loading'); }, 7000);
+      }, 400);
     } catch (e) {}
   })();
 </script>
@@ -477,7 +482,7 @@
 
     <div class="container">
       <h1 id="hero-title">Создам дизайн<br>для вашего проекта</h1>
-      <p class="hero__lead">Разработаю логотип, фирменный стиль, презентации и&nbsp;сайт на&nbsp;Тильде (Таплинк) для вашего бизнеса /&nbsp;продукта /&nbsp;онлайн&#8209;курса и&nbsp;мероприятия</p>
+      <p class="hero__lead">Разработаю логотип, фирменный стиль, презентации и&nbsp;сайт на&nbsp;Тильде (а&nbsp;можно и&nbsp;без неё) для вашего бизнеса /&nbsp;продукта /&nbsp;онлайн&#8209;курса и&nbsp;мероприятия</p>
       <div class="hero__actions">
             <a class="btn btn--outline btn--lg" href="https://t.me/olkostt" target="_blank" rel="noopener">
           Обсудить проект
@@ -858,33 +863,37 @@ const WAYS = [
   const hasGsap = typeof gsap !== 'undefined';
   const animate = hasGsap && !reduce;
 
-  /* --- Заставка: пишем «О», ждём загрузку страницы (не дольше 3,5 с), уезжаем вверх --- */
+  /* --- Заставка: если страница загрузилась быстро — её не будет; иначе пишем «О», ждём загрузку (не дольше 3,5 с) и уезжаем вверх --- */
   const root = document.documentElement;
   const loaderDone = new Promise((resolve) => {
     const loader = document.querySelector('.loader');
-    if (!root.classList.contains('is-loading') || !animate || !loader) {
-      root.classList.remove('is-loading');
-      resolve();
-      return;
-    }
-    const stroke = loader.querySelector('.loader__stroke');
-    const len = stroke.getTotalLength();
-    gsap.set(stroke, { strokeDasharray: len, strokeDashoffset: len });
     const pageLoaded = new Promise((r) => (document.readyState === 'complete' ? r() : window.addEventListener('load', r, { once: true })));
-    const cap = new Promise((r) => setTimeout(r, 3500));
-    const intro = gsap.timeline({ defaults: { ease: 'power2.inOut' } })
-      .to(stroke, { strokeDashoffset: 0, duration: 1.2 })
-      .from('.loader__drop', { scale: 0, transformOrigin: '50% 50%', duration: .35, ease: 'back.out(3)' }, '-=.1')
-      .from('.loader__name span', { yPercent: 110, duration: .6, ease: 'power3.out' }, '-=.25')
-      .from('.loader__label', { opacity: 0, y: 8, duration: .4, ease: 'power2.out' }, '-=.35');
-    Promise.all([intro.then(), Promise.race([pageLoaded, cap])]).then(() => {
-      gsap.to(loader, {
-        yPercent: -100, duration: .9, ease: 'power4.inOut', delay: .15,
-        onStart: () => { try { sessionStorage.setItem('loaderSeen', '1'); } catch (e) {} },
-        onComplete: () => { root.classList.remove('is-loading'); gsap.set(loader, { clearProps: 'all' }); }
+    const finish = () => { root.classList.add('is-ready'); resolve(); };
+    if (!animate || !loader) { root.classList.remove('is-loading'); finish(); return; }
+    const run = () => {
+      const stroke = loader.querySelector('.loader__stroke');
+      const len = stroke.getTotalLength();
+      gsap.set(stroke, { strokeDasharray: len, strokeDashoffset: len });
+      const cap = new Promise((r) => setTimeout(r, 3500));
+      const intro = gsap.timeline({ defaults: { ease: 'power2.inOut' } })
+        .to(stroke, { strokeDashoffset: 0, duration: 1 })
+        .from('.loader__drop', { scale: 0, transformOrigin: '50% 50%', duration: .3, ease: 'back.out(3)' }, '-=.1')
+        .from('.loader__name span', { yPercent: 110, duration: .5, ease: 'power3.out' }, '-=.2')
+        .from('.loader__label', { opacity: 0, y: 8, duration: .35, ease: 'power2.out' }, '-=.3');
+      Promise.all([intro.then(), Promise.race([pageLoaded, cap])]).then(() => {
+        gsap.to(loader, {
+          yPercent: -100, duration: .9, ease: 'power4.inOut', delay: .1,
+          onComplete: () => { root.classList.remove('is-loading'); gsap.set(loader, { clearProps: 'all' }); }
+        });
+        setTimeout(finish, 450); // первый экран начинает появляться, пока заставка уезжает
       });
-      setTimeout(resolve, 450); // первый экран начинает появляться, пока заставка уезжает
-    });
+    };
+    if (root.classList.contains('is-loading')) run();
+    else {
+      document.addEventListener('loader:show', run, { once: true });
+      /* загрузилась раньше, чем заставка успела появиться — сразу к сайту */
+      pageLoaded.then(() => { if (!root.classList.contains('is-loading')) { document.removeEventListener('loader:show', run); finish(); } });
+    }
   });
 
   const header = document.getElementById('header');
