@@ -377,6 +377,7 @@
   .shot__img{border-radius:16px;overflow:hidden;aspect-ratio:3/2;background:rgba(252,242,189,.06)}
   .shot__img:has(video){aspect-ratio:16/9}
   .shot--tall .shot__img{aspect-ratio:4/5}
+  .shot--tall:only-child{grid-column:1 / -1;max-width:560px}
   .shot__img img,.shot__img video{display:block;width:100%;height:100%;object-fit:cover}
   .step--text .step__text{grid-column:1 / 8;position:static}
   .shot figcaption{margin-top:8px;font-size:14px;color:var(--cream-70)}
@@ -635,6 +636,24 @@ const PROJECTS = [
     summary: 'Сайт авторского тура «Кавказ. Неделя — от нарзана до звёзд».',
     cover: 'projects/kavkaz/cover.jpg',
     site: 'https://orsinyakova.github.io/kavkaz-nedelya/'
+  },
+  {
+    id: 'kavkaz-booklet',
+    type: 'Полиграфия',
+    year: null,
+    title: 'Буклет программы «Путешествие на Кавказ»',
+    summary: 'Печатный буклет с программой поездки: каждый день — расписание по часам и запасной план на случай погоды.',
+    cover: 'projects/kavkaz-booklet/cover.jpg',
+    site: null,
+    lead: 'Буклет с программой путешествия по Кавказским Минеральным Водам. Каждому дню отведена своя страница: крупный заголовок, короткое описание и расписание по часам с запасным вариантом на случай непогоды. Я разработала дизайн буклета.',
+    facts: [
+      ['Проект', 'Путешествие на Кавказ'],
+      ['Что сделала', 'Дизайн буклета']
+    ],
+    steps: [
+      { title: 'Разворот «День 2»', text: 'Слева — дата и короткое описание дня, справа — расписание по часам. Крупный заголовок дня помогает быстро найти нужную страницу прямо в поездке.',
+        images: [{ src: 'projects/kavkaz-booklet/day-2.jpg', tall: true }] }
+    ]
   },
   {
     id: 'kolpa-school',
