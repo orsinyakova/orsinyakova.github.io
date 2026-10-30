@@ -378,6 +378,7 @@
   .shot__img:has(video){aspect-ratio:16/9}
   .shot--tall .shot__img{aspect-ratio:4/5}
   .shot--tall:only-child{grid-column:1 / -1;max-width:560px}
+  .shot--spread .shot__img{aspect-ratio:853/606}
   .shot__img img,.shot__img video{display:block;width:100%;height:100%;object-fit:cover}
   .step--text .step__text{grid-column:1 / 8;position:static}
   .shot figcaption{margin-top:8px;font-size:14px;color:var(--cream-70)}
@@ -642,17 +643,26 @@ const PROJECTS = [
     type: 'Полиграфия',
     year: null,
     title: 'Буклет программы «Путешествие на Кавказ»',
-    summary: 'Печатный буклет с программой поездки: каждый день — расписание по часам и запасной план на случай погоды.',
+    summary: 'Печатный буклет А4 со сгибом: обложка, расписание и разворот на каждый день поездки.',
     cover: 'projects/kavkaz-booklet/cover.jpg',
     site: null,
-    lead: 'Буклет с программой путешествия по Кавказским Минеральным Водам. Каждому дню отведена своя страница: крупный заголовок, короткое описание и расписание по часам с запасным вариантом на случай непогоды. Я разработала дизайн буклета.',
+    lead: 'Буклет с программой осеннего путешествия по Кавказским Минеральным Водам и йога-диджитал детокса на Эльбрусе. Формат — А4 со сгибом пополам: обложка, общее расписание и разворот на каждый день с планом по часам и важными деталями — транспорт, адреса, запасные варианты на случай погоды. Я разработала дизайн буклета.',
     facts: [
       ['Проект', 'Путешествие на Кавказ'],
+      ['Формат', 'А4 со сгибом пополам'],
       ['Что сделала', 'Дизайн буклета']
     ],
     steps: [
-      { title: 'Разворот «День 2»', text: 'Слева — дата и короткое описание дня, справа — расписание по часам. Крупный заголовок дня помогает быстро найти нужную страницу прямо в поездке.',
-        images: [{ src: 'projects/kavkaz-booklet/day-2.jpg', tall: true }] }
+      { title: 'Обложка', text: 'Крупный заголовок, фото Эльбруса и год поездки. Обложка сразу говорит, что внутри, и задаёт настроение путешествия.',
+        images: [{ src: 'projects/kavkaz-booklet/front.jpg', tall: true }, { src: 'projects/kavkaz-booklet/day-2.jpg', tall: true }] },
+      { title: 'Расписание и дни', text: 'Сначала общее расписание, затем у каждого дня свой разворот: слева короткое описание и план по часам, справа детали — электрички, адреса, телефоны и запасной вариант. Крупный номер дня помогает быстро найти нужную страницу прямо в поездке.',
+        images: [
+          { src: 'projects/kavkaz-booklet/spread-schedule-day2.jpg', wide: true, spread: true },
+          { src: 'projects/kavkaz-booklet/spread-day3.jpg', wide: true, spread: true },
+          { src: 'projects/kavkaz-booklet/spread-day4.jpg', wide: true, spread: true }
+        ] },
+      { title: 'Буклет в руках', text: 'Напечатанный буклет: плотная бумага, один сгиб — удобно держать в сумке и доставать в дороге.',
+        images: [{ src: 'projects/kavkaz-booklet/reel.mp4', poster: 'projects/kavkaz-booklet/reel-poster.jpg', tall: true }] }
     ]
   },
   {
@@ -1233,7 +1243,7 @@ const WAYS = [
       text.append(el('span', 'step__num', 'Этап ' + (i + 1)), el('h3', 'step__title', s.title), el('p', 'step__desc', s.text));
       const gallery = el('div', 'step__gallery');
       (s.images || []).forEach((im) => {
-        const fig = el('figure', 'shot' + (im.wide ? ' shot--wide' : '') + (im.tall ? ' shot--tall' : ''));
+        const fig = el('figure', 'shot' + (im.wide ? ' shot--wide' : '') + (im.tall ? ' shot--tall' : '') + (im.spread ? ' shot--spread' : ''));
         const box = el('div', 'shot__img');
         box.append(picture(im.src, im.caption, im.wide ? 'Фото 3:2, от 2000×1333' : 'Фото 3:2, от 1200×800', im.poster));
         fig.append(box);
