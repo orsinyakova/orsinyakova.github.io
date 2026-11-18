@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Оля Синякова — портфолио</title>
+  <meta name="description" content="Оля Синякова — графический дизайнер: айдентика, логотипы, мерч, сайты, графика.">
+  <meta name="theme-color" content="#0a0a0a">
+  <link rel="preload" href="assets/fonts/InterTight-Variable.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <div class="page has-hero">
+
+    <header class="site-header">
+      <!-- Десктоп: имя / навигация / контакты -->
+      <div class="layout-grid-3 header-inner desktop-only">
+        <a class="header-logo interactive-opacity" href="index.html">Оля Синякова</a>
+
+        <nav class="header-nav" aria-label="Основная навигация">
+          <span class="header-nav-item"><a class="animated-underline animated-underline-active" aria-current="page" href="index.html">Работы</a><span class="header-nav-comma">,</span></span>
+          <a class="animated-underline" href="about.html">Обо&nbsp;мне</a>
+        </nav>
+
+        <div class="contacts">
+          <button type="button" class="pill interactive-pill contacts-button" aria-expanded="false" aria-haspopup="true" aria-controls="contacts-dropdown">
+            <span>Контакты</span>
+            <svg class="pill-chevron" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+
+          <div class="dropdown" id="contacts-dropdown" role="dialog" aria-label="Контакты">
+            <div class="menu-content">
+              <div class="menu-intro">
+                <svg class="menu-deco" width="55" height="30" viewBox="0 0 55 30" aria-hidden="true">
+                  <path d="M3 4h28a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H15l-7 6v-6H3a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z" fill="currentColor"/>
+                  <path d="M39 26l13-13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+                  <path d="M47 4l1.2 3.3L51.5 8.5l-3.3 1.2L47 13l-1.2-3.3L42.5 8.5l3.3-1.2z" fill="currentColor"/>
+                </svg>
+                <p class="menu-heading">Без&nbsp;брифа,<br>просто напишите</p>
+              </div>
+              <div class="menu-sections">
+                <div class="menu-section">
+                  <p class="menu-label">Контакты</p>
+                  <div class="menu-links">
+                    <a class="animated-underline" href="https://t.me/olkostt" target="_blank" rel="noreferrer">Telegram</a>
+                  </div>
+                </div>
+                <div class="menu-section">
+                  <p class="menu-label">Соцсети</p>
+                  <div class="menu-links">
+                    <a class="animated-underline" href="https://instagram.com/olkostt" target="_blank" rel="noreferrer">Instagram*</a>
+                  </div>
+                </div>
+                <p class="menu-note">*Instagram принадлежит компании Meta, признанной экстремистской организацией и&nbsp;запрещённой в&nbsp;России</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Мобильная шапка -->
+      <div class="mobile-bar mobile-only">
+        <a class="header-logo" href="index.html">Оля Синякова</a>
+        <button type="button" class="pill menu-button" aria-expanded="false" aria-haspopup="dialog" aria-controls="mobile-menu">
+          <svg class="menu-icon" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><circle cx="2" cy="2" r="2"/><circle cx="8" cy="2" r="2"/><circle cx="2" cy="8" r="2"/><circle cx="8" cy="8" r="2"/></svg>
+          <span>Меню</span>
+        </button>
+      </div>
+      <!-- Маленькое видео под именем -->
+      <div class="header-video">
+        <video class="header-video-media" src="assets/video/me.mp4" poster="assets/video/me-poster.jpg"
+               width="360" height="450" muted loop playsinline autoplay preload="metadata"
+               aria-label="Оля Синякова, видео-селфи в горах"></video>
+      </div>
+    </header>
+
+    <!-- Мобильное меню -->
+    <div class="overlay" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Меню">
+      <div class="overlay-top">
+        <a class="header-logo" href="index.html">Оля Синякова</a>
+      </div>
+      <div class="overlay-scroll">
+        <div class="menu-content overlay-panel">
+          <div class="menu-intro">
+            <svg class="menu-deco" width="55" height="30" viewBox="0 0 55 30" aria-hidden="true">
+              <path d="M3 4h28a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H15l-7 6v-6H3a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z" fill="currentColor"/>
+              <path d="M39 26l13-13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+              <path d="M47 4l1.2 3.3L51.5 8.5l-3.3 1.2L47 13l-1.2-3.3L42.5 8.5l3.3-1.2z" fill="currentColor"/>
+            </svg>
+            <p class="menu-heading">Без&nbsp;брифа,<br>просто напишите</p>
+          </div>
+          <div class="menu-sections">
+            <div class="menu-section">
+              <p class="menu-label">Разделы</p>
+              <div class="menu-links menu-links--big">
+                <a class="animated-underline animated-underline-active" aria-current="page" href="index.html">Работы</a>
+                <a class="animated-underline" href="about.html">Обо&nbsp;мне</a>
+              </div>
+            </div>
+            <div class="menu-section">
+              <p class="menu-label">Контакты</p>
+              <div class="menu-links">
+                <a class="animated-underline" href="https://t.me/olkostt" target="_blank" rel="noreferrer">Telegram</a>
+              </div>
+            </div>
+            <div class="menu-section">
+              <p class="menu-label">Соцсети</p>
+              <div class="menu-links">
+                <a class="animated-underline" href="https://instagram.com/olkostt" target="_blank" rel="noreferrer">Instagram*</a>
+              </div>
+            </div>
+            <p class="menu-note">*Instagram принадлежит компании Meta, признанной экстремистской организацией и&nbsp;запрещённой в&nbsp;России</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Первый экран -->
+    <section class="hero" data-hero aria-label="Оля Синякова, графический дизайнер">
+      <div class="hero-corners" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <div class="hero-name" data-hero-name role="img" aria-label="Оля Синякова">
+        <span class="hero-line hero-line--1" aria-hidden="true">Оля</span>
+        <span class="hero-line hero-line--2" aria-hidden="true">Синякова</span>
+      </div>
+      <div class="hero-strip" data-hero-strip></div>
+      <div class="hero-meta layout-grid-3">
+        <p class="caption">Графический дизайнер</p>
+        <p class="caption hero-meta-center">Айдентика, мерч, сайты и&nbsp;графика</p>
+        <p class="caption hero-meta-right"><span>Москва</span> · <time data-clock>—:—</time></p>
+      </div>
+    </section>
+
+    <!-- Заставка: буквенная сетка (только при первом заходе) -->
+    <div class="intro" data-intro aria-hidden="true"></div>
+
+    <main class="main" id="main">
+      <div class="gallery">
+
+        <!-- Фильтры: десктоп -->
+        <div class="filters desktop-only">
+          <div class="separator"></div>
+          <section class="layout-grid-3 controls">
+            <div class="control">
+              <p class="caption">Раздел</p>
+              <h1 class="display-title"><a class="title-active" href="index.html" aria-current="page">Галерея</a><span class="title-muted">/</span><a class="title-muted interactive-muted" href="cases.html">Кейсы</a></h1>
+            </div>
+            <div class="control">
+              <p class="caption">Категория</p>
+              <div class="cat-columns" data-categories></div>
+            </div>
+            <div class="control">
+              <p class="caption">Сетка</p>
+              <div class="grid-options" role="group" aria-label="Количество колонок">
+                <button type="button" data-cols="3" aria-pressed="false">3</button>
+                <button type="button" data-cols="5" aria-pressed="false">5</button>
+                <button type="button" data-cols="7" aria-pressed="false">7</button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Фильтры: мобильные -->
+        <div class="filters-mobile mobile-only">
+          <div class="separator-block">
+            <div class="separator"></div>
+            <div class="control control--pad">
+              <p class="caption">Раздел</p>
+              <h1 class="display-title"><a class="title-active" href="index.html" aria-current="page">Галерея</a><span class="title-muted">/</span><a class="title-muted interactive-muted" href="cases.html">Кейсы</a></h1>
+            </div>
+          </div>
+          <div class="separator-block">
+            <div class="separator"></div>
+            <div class="control control--pad">
+              <p class="caption">Категория</p>
+              <div class="cat-columns" data-categories></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Сетка работ -->
+        <div class="masonry" data-masonry aria-live="polite"></div>
+      </div>
+    </main>
+
+    <!-- Просмотр работы -->
+    <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-labelledby="viewer-title" hidden>
+      <div class="viewer-layout">
+        <div class="viewer-media">
+          <button type="button" class="round-btn viewer-back" aria-label="Закрыть просмотр">
+            <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><path d="M22 14l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="viewer-stage" data-stage></div>
+          <div class="viewer-related-mobile mobile-only" data-related-mobile></div>
+          <button type="button" class="round-btn viewer-expand desktop-only" aria-label="Развернуть изображение" aria-pressed="false">
+            <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><path d="M13 4h5v5M9 18H4v-5M18 4l-6 6M4 18l6-6" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <aside class="viewer-panel" data-panel></aside>
+      </div>
+    </div>
+
+  </div>
+  <script src="assets/js/header.js" defer></script>
+  <script src="assets/js/works.js" defer></script>
+  <script src="assets/js/gallery.js" defer></script>
+  <script src="assets/js/hero.js" defer></script>
+</body>
+</html>
