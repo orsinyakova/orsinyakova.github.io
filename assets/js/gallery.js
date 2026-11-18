@@ -212,7 +212,7 @@
     expandBtn.setAttribute('aria-pressed', 'false');
     stage.innerHTML = '';
     document.body.classList.remove('viewer-open');
-    document.title = 'Оля Синякова — портфолио';
+    document.title = 'Оля Синякова — веб-дизайнер';
     if (push) history.pushState({}, '', location.pathname);
     if (lastFocus) lastFocus.focus({ preventScroll: true });
   };
