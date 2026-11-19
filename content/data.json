@@ -109,7 +109,7 @@
           "w": 960,
           "h": 542,
           "gallery": true,
-          "hero": true
+          "hero": false
         },
         {
           "id": "before",
@@ -118,7 +118,7 @@
           "thumb": "assets/works/equicenter-before-poster.webp",
           "w": 960,
           "h": 542,
-          "gallery": true,
+          "gallery": false,
           "hero": false
         }
       ],

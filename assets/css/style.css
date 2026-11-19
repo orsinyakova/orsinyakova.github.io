@@ -859,3 +859,126 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 body.contacts-open .hero-name,
 body.menu-open .hero-name { z-index: 1; }
 body.menu-open .hero-corners i { z-index: 1; }
+
+/* =========================================================
+   Обо мне
+   ========================================================= */
+:root { --about-hero-height: 780px; --about-heading-size: 34px; --about-heading-line: 37px; --about-heading-tracking: -.68px; }
+.page--about { position: relative; overflow-x: clip; }
+.page--about .site-header { position: absolute; top: 0; left: 0; right: 0; }
+.page--about .header-video { display: none; }
+.about { position: relative; }
+.about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 710fr) minmax(0, 680fr);
+  padding-inline: var(--page-padding);
+  align-items: start;
+}
+.about-col { display: flex; flex-direction: column; gap: 30px; min-width: 0; }
+.about-col--text { padding-right: 48px; }
+
+/* Сфера */
+.about-hero {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 0;
+  height: var(--about-hero-height);
+  overflow: hidden; pointer-events: none; user-select: none;
+}
+.about-scene {
+  position: absolute; inset: -140px 0 0;
+  display: flex; align-items: center; justify-content: center;
+  perspective: 1200px; perspective-origin: 50% 42%;
+}
+.about-sphere { position: relative; width: 1px; height: 1px; transform-style: preserve-3d; will-change: transform; }
+.about-card {
+  position: absolute; left: 0; top: 0;
+  width: 150px; height: 100px; margin: -50px 0 0 -75px;
+  background: #2a2a2a;
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+}
+.about-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.about-grad { position: absolute; left: 0; right: 0; z-index: 2; }
+.about-grad--top { top: 0; height: 180px; background: linear-gradient(rgba(10,10,10,.98), rgba(10,10,10,.72) 45%, rgba(10,10,10,0)); }
+.about-grad--bottom { bottom: 0; height: 160px; background: linear-gradient(rgba(10,10,10,0), rgba(10,10,10,.55) 45%, rgba(10,10,10,.97)); }
+.about-drag {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 2;
+  height: var(--about-hero-height);
+  cursor: grab; touch-action: pan-y;
+}
+.about-drag.is-dragging { cursor: grabbing; }
+
+/* Контент поверх сферы */
+.about-content {
+  position: relative; z-index: 3;
+  display: flex; flex-direction: column; gap: var(--section-gap);
+  padding-top: 620px; padding-bottom: 130px;
+  pointer-events: none;
+}
+.about-content > * { pointer-events: auto; }
+.about-text {
+  display: flex; flex-direction: column; gap: 37px;
+  max-width: 560px;
+  font-size: var(--about-heading-size); line-height: var(--about-heading-line); letter-spacing: var(--about-heading-tracking);
+}
+.about-services { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; line-height: 21px; }
+
+/* Лента */
+.about-marquee { height: 318px; overflow: hidden; }
+.about-track { display: flex; gap: 20px; width: max-content; height: 100%; animation: about-marquee 60s linear infinite; }
+.about-slide { width: 318px; height: 318px; flex-shrink: 0; background: #2a2a2a; overflow: hidden; }
+.about-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@keyframes about-marquee { to { transform: translateX(-50%); } }
+
+/* Клиенты */
+.about-clients-img { padding-right: 20px; }
+.about-stack { position: relative; width: 354px; height: 411px; margin-left: auto; background: #2a2a2a; overflow: hidden; }
+.about-stack-frame { position: absolute; inset: 0; }
+.about-stack-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.about-stack-frame.is-entering { z-index: 2; animation: client-in .45s cubic-bezier(.22,1,.36,1) forwards; }
+.about-stack-frame.is-leaving { z-index: 1; animation: client-out .45s cubic-bezier(.22,1,.36,1) forwards; }
+@keyframes client-in { from { clip-path: inset(100% 0 0); } to { clip-path: inset(0); } }
+@keyframes client-out { from { clip-path: inset(0); } to { clip-path: inset(0 0 100%); } }
+.about-client-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; max-width: 600px; }
+.about-client {
+  display: inline-block;
+  font-size: var(--about-heading-size); line-height: var(--about-heading-line); letter-spacing: var(--about-heading-tracking);
+  text-underline-offset: .16em; text-decoration-thickness: 1px;
+}
+.about-client.is-active { text-decoration-line: underline; }
+
+/* Процесс */
+.about-steps { display: grid; grid-template-columns: repeat(2, minmax(0, 324px)); gap: 30px; }
+.about-step { display: flex; flex-direction: column; line-height: 20px; }
+.about-step-n { color: var(--color-text-muted); margin-bottom: 6px; }
+
+/* Призыв */
+.about-cta { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding-inline: var(--page-padding); }
+.about-cta-title, .about-cta-link {
+  font-size: var(--text-display-size); line-height: var(--text-display-line); letter-spacing: var(--text-display-tracking);
+}
+.about-cta-link { padding-bottom: .14em; }
+.about-cta-link.animated-underline::after { bottom: 0; }
+.animated-underline-always::after { transform: scaleX(1); }
+
+@media (max-width: 1024px) {
+  .about-stack { width: 280px; height: 326px; }
+}
+@media (max-width: 768px) {
+  :root { --about-hero-height: 640px; --about-heading-size: 26px; --about-heading-line: 30px; --about-heading-tracking: -.5px; }
+  .about-card { width: 110px; height: 74px; margin: -37px 0 0 -55px; }
+  .about-content { padding-top: 470px; padding-bottom: 80px; }
+  .about-grid { display: flex; flex-direction: column; gap: 50px; }
+  .about-col--text { padding-right: 0; }
+  .about-text { gap: 30px; }
+  .about-marquee { height: 240px; }
+  .about-slide { width: 240px; height: 240px; }
+  .about-track { gap: 12px; }
+  .about-clients { position: relative; gap: 30px; }
+  .about-clients-img { order: 2; padding: 0; }
+  .about-stack { width: 100%; height: auto; aspect-ratio: 354 / 411; margin: 0; }
+  .about-process > div:first-child { display: none; }
+  .about-steps { grid-template-columns: 1fr; gap: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-track { animation: none; }
+}
