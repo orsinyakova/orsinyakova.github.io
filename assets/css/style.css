@@ -701,7 +701,8 @@ body.viewer-open { overflow: hidden; }
   .case-lead-p { font-size: 18px; line-height: 24px; }
   .case-content { gap: 9px; margin-top: 80px; }
   .case-row { grid-template-columns: 1fr; gap: 9px; }
-  .case-text { margin-block: 48px; }
+  .case-text { margin-block: 48px; display: block; }
+  .case-text-inner { grid-column: auto; max-width: none; }
   .case-text-p { font-size: 20px; line-height: 26px; }
   .case-next-inner { display: flex; flex-direction: column; gap: 20px; }
   .case-next-title { font-size: 32px; line-height: 34px; }
@@ -733,7 +734,7 @@ body.viewer-open { overflow: hidden; }
   margin-bottom: 70px;
 }
 .hero-corners i {
-  position: absolute; z-index: 300; width: 28px; height: 28px; pointer-events: none;
+  position: absolute; z-index: 289; width: 28px; height: 28px; pointer-events: none;
   border-color: rgba(229,229,229,.45); border-style: solid; border-width: 0;
   opacity: 0; transition: opacity .6s ease .4s;
 }

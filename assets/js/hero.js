@@ -64,15 +64,19 @@
   };
   const ease = (t) => 1 - Math.pow(1 - t, 3);
   const header = document.querySelector('.site-header');
-  const onScroll = () => {
-    header.classList.toggle('is-solid', window.scrollY > 4);
+  let lastLogo = null, lastSolid = null, ticking = false;
+  const setLogo = (v) => { if (v !== lastLogo) { lastLogo = v; header.style.setProperty('--logo-o', v); } };
+  const update = () => {
+    ticking = false;
+    const solid = window.scrollY > 4;
+    if (solid !== lastSolid) { lastSolid = solid; header.classList.toggle('is-solid', solid); }
     if (!base || !hero.classList.contains('is-revealed')) return;
     const s = window.scrollY;
     const p = Math.min(1, Math.max(0, s / base.range));
     const e = ease(p);
     if (reduce) {
       nameEl.style.opacity = String(1 - p);
-      root.style.setProperty('--logo-o', p > 0.6 ? '1' : '0');
+      setLogo(p > 0.6 ? '1' : '0');
       return;
     }
     const sc = 1 + (base.scale - 1) * e;
@@ -82,16 +86,31 @@
     // позиция «О» после масштабирования от левого верха блока
     const scaledX = ox + (curX - ox) * sc, scaledY = oy + (curY - oy) * sc;
     const dx = (base.tx - scaledX) * e, dy = (base.ty - scaledY) * e;
-    nameEl.style.transform = `translate(${dx}px, ${dy}px) scale(${sc})`;
+    if (p >= 1) {
+      // имя уже ушло — дальше ничего не трогаем, чтобы не грузить прокрутку
+      if (nameEl.dataset.gone !== '1') { nameEl.dataset.gone = '1'; nameEl.style.opacity = '0'; nameEl.style.visibility = 'hidden'; }
+      setLogo('1');
+      return;
+    }
+    if (nameEl.dataset.gone === '1') { nameEl.dataset.gone = ''; nameEl.style.visibility = ''; }
+    nameEl.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px) scale(${sc.toFixed(4)})`;
     nameEl.style.opacity = p < 0.82 ? '1' : String(Math.max(0, 1 - (p - 0.82) / 0.18));
-    root.style.setProperty('--logo-o', p < 0.8 ? '0' : String(Math.min(1, (p - 0.8) / 0.2)));
+    setLogo(p < 0.8 ? '0' : String(Math.min(1, (p - 0.8) / 0.2).toFixed(2)));
   };
+  const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', () => { fit(); measure(); onScroll(); });
+  // На телефоне при прокрутке прячется адресная строка и меняется высота окна —
+  // пересчитываем имя только если поменялась ширина (поворот, изменение окна)
+  let lastW = window.innerWidth;
+  window.addEventListener('resize', () => {
+    if (window.innerWidth === lastW && mqMobile.matches) return;
+    lastW = window.innerWidth;
+    fit(); measure(); update();
+  });
 
   const reveal = () => {
     hero.classList.add('is-revealed');
-    fit(); measure(); onScroll();
+    fit(); measure(); update();
   };
 
   // ---------- Заставка: буквенная сетка → имя ----------

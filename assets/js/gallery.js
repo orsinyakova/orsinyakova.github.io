@@ -108,7 +108,10 @@
 
     // Видео играют, пока видны на экране
     if (io) io.disconnect();
-    if (!reduceMotion && 'IntersectionObserver' in window) {
+    // На телефоне видео в сетке не запускаем (экономим трафик и плавность прокрутки) —
+    // показывается обложка со значком ▶, видео играет в просмотре работы
+    const touch = window.matchMedia('(hover: none), (max-width: 768px)').matches;
+    if (!reduceMotion && !touch && 'IntersectionObserver' in window) {
       io = new IntersectionObserver((entries) => entries.forEach(({ target: v, isIntersecting }) => {
         if (isIntersecting) {
           if (!v.src) v.src = v.dataset.src;
@@ -116,7 +119,7 @@
         } else {
           v.pause();
         }
-      }), { rootMargin: '200px 0px' });
+      }), { threshold: 0.4 });
       masonry.querySelectorAll('video').forEach((v) => io.observe(v));
     }
   };
