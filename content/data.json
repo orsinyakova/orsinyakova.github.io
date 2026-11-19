@@ -50,7 +50,7 @@
           "w": 1293,
           "h": 845,
           "gallery": true,
-          "hero": true
+          "hero": false
         },
         {
           "id": "scroll",
@@ -120,6 +120,16 @@
           "h": 542,
           "gallery": false,
           "hero": false
+        },
+        {
+          "id": "konnaya-shkola-equicenter-na-ekrane-imac-r3qa",
+          "type": "image",
+          "src": "assets/works/equicenter-konnaya-shkola-equicenter-na-ekrane-imac-r3qa.webp",
+          "thumb": "assets/works/equicenter-konnaya-shkola-equicenter-na-ekrane-imac-r3qa-sm.webp",
+          "w": 1536,
+          "h": 1024,
+          "gallery": true,
+          "hero": true
         }
       ],
       "case": {
@@ -1106,9 +1116,9 @@
     ]
   },
   "heroOrder": [
-    "pesduke-elegantnyi-sai-t-gruming-salona-s-korgi--l61z",
     "kavkaz-kavkaz-ot-narzana-do-zve-zd-w3sf",
-    "chalavek-i-kon-01",
-    "kontur-cover"
+    "pesduke-elegantnyi-sai-t-gruming-salona-s-korgi--l61z",
+    "equicenter-konnaya-shkola-equicenter-na-ekrane-imac-r3qa",
+    "chalavek-i-kon-01"
   ]
 }
