@@ -120,6 +120,9 @@ def validate(data):
         if not p.get('id') or p['id'] in ids: raise ValueError(f'Повтор или пустой id проекта: {p.get("id")}')
         ids.add(p['id'])
         if not (p.get('title') or '').strip(): raise ValueError('У проекта нет названия')
+    ho = data.get('heroOrder', [])
+    if not isinstance(ho, list) or not all(isinstance(x, str) for x in ho):
+        raise ValueError('Неверный формат порядка первого экрана')
     go = data.get('galleryOrder', {})
     if not isinstance(go, dict) or any(not isinstance(v, list) or not all(isinstance(x, str) for x in v) for v in go.values()):
         raise ValueError('Неверный формат порядка галереи')
@@ -176,6 +179,9 @@ def build(data):
         for m in p.get('media', []):
             if m.get('hero'):
                 hero.append(dict(id=f"{p['id']}-{m['id']}", p=p['id'], title=nbsp(p['title']), **{k: m[k] for k in ('type', 'src', 'thumb', 'w', 'h') if k in m}))
+    # Порядок, расставленный в разделе «Первый экран»
+    hpos = {wid: i for i, wid in enumerate(data.get('heroOrder') or [])}
+    hero.sort(key=lambda w: hpos.get(w['id'], len(hpos)))
     if not hero:  # ничего не отмечено — берём по одной картинке из первых проектов
         seen = set()
         for w in works:

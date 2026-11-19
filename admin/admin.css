@@ -175,3 +175,16 @@ kbd { font: inherit; font-size: 11px; opacity: .55; }
 .go-tools button { width: 26px; height: 26px; padding: 0; border: 0; border-radius: 50%; background: rgba(10,10,10,.75); cursor: pointer; font-size: 12px; }
 .go-tools button:hover { background: var(--text); color: var(--bg); }
 .go-badge { margin-left: 8px; font-size: 12px; color: #ffd27a; }
+
+/* Первый экран */
+.hero-strip-admin { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.hero-strip-admin--extra { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 10px; opacity: .6; }
+.hs-card { position: relative; aspect-ratio: 1 / .82; border-radius: 4px; overflow: hidden; background: #1c1c1c; cursor: grab; outline: 2px solid transparent; outline-offset: 2px; transition: opacity .15s, outline-color .15s; }
+.hs-card img, .hs-card video { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+.hs-card.dragging { opacity: .3; }
+.hs-card.drop-before { outline-color: var(--text); }
+.hs-card--fixed { cursor: default; }
+.hs-card--empty { display: flex; align-items: center; justify-content: center; padding: 10px; text-align: center; font-size: 12px; color: var(--faint); border: 1px dashed var(--line-2); background: none; cursor: default; }
+.hs-label { position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 8px 6px; background: linear-gradient(transparent, rgba(0,0,0,.75)); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hs-card:hover .go-tools { opacity: 1; }
+.hs-pick { display: flex; flex-wrap: wrap; gap: 8px; }

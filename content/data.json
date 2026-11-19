@@ -183,6 +183,16 @@
           "w": 1800,
           "h": 1200,
           "gallery": true,
+          "hero": false
+        },
+        {
+          "id": "sai-t-pe-sduke-i-spokoi-nyi-korgi-9j8l",
+          "type": "image",
+          "src": "assets/works/pesduke-sai-t-pe-sduke-i-spokoi-nyi-korgi-9j8l.webp",
+          "thumb": "assets/works/pesduke-sai-t-pe-sduke-i-spokoi-nyi-korgi-9j8l-sm.webp",
+          "w": 1536,
+          "h": 1024,
+          "gallery": true,
           "hero": true
         }
       ],

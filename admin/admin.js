@@ -5,7 +5,7 @@
   const slugify = (s) => [...String(s).toLowerCase()].map((c) => TR[c] ?? c).join('').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
   const url = (p) => '/' + p;
 
-  const S = { data: null, current: null, tab: 'main', dirty: false, saving: false, uploading: 0 };
+  const S = { data: null, current: null, tab: 'main', view: 'project', dirty: false, saving: false, uploading: 0 };
   const list = $('[data-project-list]');
   const editor = $('[data-editor]');
   const saveBtn = $('[data-action="save"]');
@@ -75,7 +75,7 @@
       const th = coverThumb(p);
       const nf = p.media.length, plural = nf % 10 === 1 && nf % 100 !== 11 ? 'файл' : (nf % 10 >= 2 && nf % 10 <= 4 && (nf % 100 < 10 || nf % 100 >= 20) ? 'файла' : 'файлов');
       const meta = [nf ? `${nf} ${plural}` : 'нет файлов', p.case?.enabled ? 'кейс' : '', p.visible === false ? 'скрыт' : ''].filter(Boolean).join(' · ');
-      return `<li class="project-item${p.id === S.current && S.view !== 'gallery' ? ' is-active' : ''}${p.visible === false ? ' is-hidden' : ''}" draggable="true" data-id="${esc(p.id)}">
+      return `<li class="project-item${p.id === S.current && S.view === 'project' ? ' is-active' : ''}${p.visible === false ? ' is-hidden' : ''}" draggable="true" data-id="${esc(p.id)}">
         ${th ? `<img class="pi-thumb" src="${esc(url(th))}" alt="">` : '<span class="pi-thumb"></span>'}
         <span class="pi-text"><span class="pi-title">${esc(p.title || 'Без названия')}</span><span class="pi-meta">${esc(meta)}</span></span></li>`;
     }).join('');
@@ -123,7 +123,9 @@
   // ---------- редактор ----------
   const renderEditor = () => {
     $('[data-action="gallery-order"]').classList.toggle('is-active', S.view === 'gallery');
+    $('[data-action="hero-order"]').classList.toggle('is-active', S.view === 'hero');
     if (S.view === 'gallery') { renderGalleryOrder(); return; }
+    if (S.view === 'hero') { renderHeroOrder(); return; }
     const p = project();
     if (!p) { editor.innerHTML = '<div class="empty">Выбери проект слева или создай новый.</div>'; return; }
     const tabs = [['main', 'Основное'], ['media', 'Фото и видео', p.media.length], ['case', 'Кейс', p.case?.enabled ? 'вкл' : '']];
@@ -462,6 +464,89 @@
     ids.splice(from, 1);
     ids.splice(to, 0, goDrag); // встаёт на место той, на которую бросили
     setOrder(S.go.cat, ids); goDrag = null; renderEditor();
+  });
+
+
+  // ---------- первый экран ----------
+  const HERO_MAX = 4;
+  const allWorks = () => S.data.projects.filter((p) => p.visible !== false)
+    .flatMap((p) => p.media.map((m) => ({ id: `${p.id}-${m.id}`, p, m })));
+  const heroWorks = () => {
+    const list = allWorks().filter((w) => w.m.hero);
+    const pos = new Map((S.data.heroOrder || []).map((id, i) => [id, i]));
+    return list.map((w, i) => ({ w, k: pos.has(w.id) ? pos.get(w.id) : 1000 + i })).sort((a, b) => a.k - b.k).map((x) => x.w);
+  };
+  const setHeroOrder = (ids) => { S.data.heroOrder = ids; setDirty(); };
+
+  const renderHeroOrder = () => {
+    const list = heroWorks();
+    const shown = list.slice(0, HERO_MAX);
+    const extra = list.slice(HERO_MAX);
+    const inHero = new Set(list.map((w) => w.id));
+    editor.innerHTML = `
+      <div class="ed-head"><h1 class="ed-title">Первый экран</h1></div>
+      <p class="hint" style="margin:-10px 0 20px">Лента под именем на главной. Первым всегда идёт твоё видео. Перетащи работу на другую — они поменяются местами. ✕ убирает с первого экрана.</p>
+      <div class="hero-strip-admin">
+        <div class="hs-card hs-card--fixed"><video src="/assets/video/me.mp4" muted loop playsinline autoplay></video><span class="go-num">1</span><span class="hs-label">Твоё видео</span></div>
+        ${shown.map((w, i) => `
+          <div class="hs-card" draggable="true" data-hid="${esc(w.id)}">
+            <img src="${esc(url(w.m.thumb))}" alt="">
+            <span class="go-num">${i + 2}</span>
+            <span class="go-tools"><button type="button" data-hero-remove title="Убрать с первого экрана">✕</button></span>
+            <span class="hs-label">${esc(w.p.title)}</span>
+          </div>`).join('')}
+        ${Array.from({ length: Math.max(0, HERO_MAX - shown.length) }, () => '<div class="hs-card hs-card--empty">Пусто — добавь работу ниже</div>').join('')}
+      </div>
+      ${extra.length ? `<div class="notice" style="margin-top:14px">Отмечено больше ${HERO_MAX}: эти не помещаются и не показываются — ${extra.map((w) => esc(w.p.title)).join(', ')}. Перетащи их выше или убери.</div>
+        <div class="hero-strip-admin hero-strip-admin--extra">${extra.map((w) => `
+          <div class="hs-card" draggable="true" data-hid="${esc(w.id)}"><img src="${esc(url(w.m.thumb))}" alt=""><span class="go-tools"><button type="button" data-hero-remove>✕</button></span><span class="hs-label">${esc(w.p.title)}</span></div>`).join('')}</div>` : ''}
+      <h2 class="section-title">Добавить на первый экран</h2>
+      <p class="hint" style="margin:-6px 0 14px">Нажми на работу, чтобы поставить её в ленту.</p>
+      <div class="hs-pick">${allWorks().map((w) => `
+        <button type="button" class="pick hs-pickbtn" data-hero-add="${esc(w.id)}" aria-pressed="${inHero.has(w.id)}" title="${esc(w.p.title)}"><img src="${esc(url(w.m.thumb))}" alt="" loading="lazy"></button>`).join('')}</div>`;
+  };
+
+  $('[data-action="hero-order"]').addEventListener('click', () => { S.view = 'hero'; renderList(); renderEditor(); });
+
+  const findWork = (id) => allWorks().find((w) => w.id === id);
+  editor.addEventListener('click', (e) => {
+    if (S.view !== 'hero') return;
+    const rm = e.target.closest('[data-hero-remove]');
+    if (rm) {
+      const id = rm.closest('[data-hid]').dataset.hid;
+      const w = findWork(id); if (w) w.m.hero = false;
+      setHeroOrder(heroWorks().map((x) => x.id));
+      renderEditor(); return;
+    }
+    const add = e.target.closest('[data-hero-add]');
+    if (add) {
+      const id = add.dataset.heroAdd; const w = findWork(id); if (!w) return;
+      if (w.m.hero) { w.m.hero = false; setHeroOrder(heroWorks().map((x) => x.id)); renderEditor(); return; }
+      if (heroWorks().length >= HERO_MAX) { toast(`В ленте уже ${HERO_MAX} работы. Сначала убери одну ✕.`, true); return; }
+      w.m.hero = true;
+      setHeroOrder([...heroWorks().map((x) => x.id).filter((x) => x !== id), id]);
+      renderEditor();
+    }
+  });
+  let heroDrag = null;
+  editor.addEventListener('dragstart', (e) => {
+    const c = e.target.closest('[data-hid]'); if (!c || S.view !== 'hero') return;
+    heroDrag = c.dataset.hid; c.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move';
+  });
+  editor.addEventListener('dragend', () => { heroDrag = null; editor.querySelectorAll('.hs-card').forEach((x) => x.classList.remove('dragging', 'drop-before')); });
+  editor.addEventListener('dragover', (e) => {
+    const c = e.target.closest('[data-hid]'); if (!c || !heroDrag) return;
+    e.preventDefault();
+    editor.querySelectorAll('.drop-before').forEach((x) => x.classList.remove('drop-before'));
+    if (c.dataset.hid !== heroDrag) c.classList.add('drop-before');
+  });
+  editor.addEventListener('drop', (e) => {
+    const c = e.target.closest('[data-hid]'); if (!c || !heroDrag || c.dataset.hid === heroDrag) return;
+    e.preventDefault();
+    const ids = heroWorks().map((w) => w.id);
+    const a = ids.indexOf(heroDrag), b = ids.indexOf(c.dataset.hid);
+    [ids[a], ids[b]] = [ids[b], ids[a]]; // меняем местами
+    setHeroOrder(ids); heroDrag = null; renderEditor();
   });
 
   // ---------- категории ----------
