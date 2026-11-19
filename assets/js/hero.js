@@ -157,6 +157,10 @@
       reveal();
     };
     ['click', 'wheel', 'keydown', 'touchstart'].forEach((ev) => window.addEventListener(ev, finish, { once: true, passive: true }));
+    // Предохранитель: что бы ни случилось с анимацией, через 4.5 с показываем сайт
+    setTimeout(finish, 4500);
+    // Если вкладку спрятали посреди заставки — сразу показываем сайт
+    document.addEventListener('visibilitychange', () => { if (document.hidden) finish(); }, { once: true });
 
     // 1. буквы перебираются
     const scramble = setInterval(() => {
@@ -195,6 +199,7 @@
       f.style.fontSize = `${heroSize}px`;
       intro.append(f);
       const fx = from.left + (from.width - to.width * s0) / 2, fy = from.top + (from.height - to.height * s0) / 2;
+      f.style.transform = `translate(${fx}px, ${fy}px) scale(${s0})`;
       cell.style.visibility = 'hidden';
       return f.animate([
         { transform: `translate(${fx}px, ${fy}px) scale(${s0})` },
@@ -202,7 +207,7 @@
       ], { duration: 720, delay: i * 25, easing: 'cubic-bezier(.7,0,.2,1)', fill: 'forwards' });
     });
     intro.animate([{ backgroundColor: 'rgba(10,10,10,1)' }, { backgroundColor: 'rgba(10,10,10,0)' }], { duration: 500, delay: 450, fill: 'forwards' });
-    await Promise.all(flies.map((a) => a.finished.catch(() => {})));
+    await Promise.race([Promise.all(flies.map((a) => a.finished.catch(() => {}))), wait(1300)]);
     if (done) return;
     finish();
   };
