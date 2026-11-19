@@ -230,7 +230,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *a, **kw): super().__init__(*a, directory=ROOT, **kw)
 
     def log_message(self, fmt, *args):
-        if '/api/' in (args[0] if args else ''): sys.stderr.write('  ' + (fmt % args) + '\n')
+        # В журнал пишем только запросы к API и ошибки; первый аргумент бывает не строкой
+        first = str(args[0]) if args else ''
+        if '/api/' in first or fmt.startswith('code'):
+            sys.stderr.write('  ' + (fmt % args) + '\n')
 
     def end_headers(self):
         self.send_header('Cache-Control', 'no-store')
