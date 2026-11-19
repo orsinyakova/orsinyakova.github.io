@@ -846,7 +846,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   }
   .hero-strip::-webkit-scrollbar { display: none; }
   .hero-frame { flex: 0 0 42vw; scroll-snap-align: start; }
-  .hero-frame-cap { opacity: 1; transform: none; }
+  .hero-frame-cap { display: none; }
   .hero-meta { display: flex; justify-content: space-between; gap: 12px; margin-top: 18px; }
   .hero-meta-center { display: none; }
   .hero-corners i { width: 18px; height: 18px; }
