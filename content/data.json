@@ -186,12 +186,12 @@
           "hero": false
         },
         {
-          "id": "sai-t-pe-sduke-i-spokoi-nyi-korgi-9j8l",
+          "id": "elegantnyi-sai-t-gruming-salona-s-korgi--l61z",
           "type": "image",
-          "src": "assets/works/pesduke-sai-t-pe-sduke-i-spokoi-nyi-korgi-9j8l.webp",
-          "thumb": "assets/works/pesduke-sai-t-pe-sduke-i-spokoi-nyi-korgi-9j8l-sm.webp",
-          "w": 1536,
-          "h": 1024,
+          "src": "assets/works/pesduke-elegantnyi-sai-t-gruming-salona-s-korgi--l61z.webp",
+          "thumb": "assets/works/pesduke-elegantnyi-sai-t-gruming-salona-s-korgi--l61z-sm.webp",
+          "w": 1377,
+          "h": 1142,
           "gallery": true,
           "hero": true
         }
@@ -1104,5 +1104,11 @@
       "team-of-power-04",
       "koleso-megaphone"
     ]
-  }
+  },
+  "heroOrder": [
+    "pesduke-sai-t-pe-sduke-i-spokoi-nyi-korgi-9j8l",
+    "kontur-cover",
+    "kavkaz-kavkaz-ot-narzana-do-zve-zd-w3sf",
+    "chalavek-i-kon-01"
+  ]
 }
