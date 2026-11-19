@@ -59,7 +59,7 @@
           "thumb": "assets/works/kontur-scroll-poster.webp",
           "w": 960,
           "h": 542,
-          "gallery": true,
+          "gallery": false,
           "hero": false
         }
       ],
@@ -1053,14 +1053,13 @@
       "chalavek-i-kon-02",
       "kavkaz-cover",
       "equicenter-after",
-      "cream-brew-01",
+      "koleso-team",
       "kolpa-school-cover",
-      "koleso-cover",
+      "kontur-scroll",
+      "cream-brew-01",
       "team-of-power-cover",
       "hedonism-01",
       "koleso-cat-pocket",
-      "kavkaz-booklet-cover",
-      "kontur-scroll",
       "cream-brew-02",
       "kolpa-school-01-logo-light",
       "kavkaz-booklet-front",
@@ -1078,16 +1077,12 @@
       "chalavek-i-kon-04",
       "cream-brew-03",
       "kolpa-school-03-palette",
-      "kavkaz-booklet-reel",
       "team-of-power-02",
       "hedonism-03",
-      "koleso-team",
       "kolpa-school-04-elements",
       "kavkaz-booklet-spread-day3",
       "team-of-power-04",
-      "koleso-megaphone",
-      "kavkaz-booklet-day-2",
-      "kavkaz-booklet-spread-day4"
+      "koleso-megaphone"
     ]
   }
 }
