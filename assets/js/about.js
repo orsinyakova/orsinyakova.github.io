@@ -11,7 +11,7 @@
   const drag = document.querySelector('[data-drag]');
   const cards = WORKS.slice(0, 42);
   const N = cards.length;
-  const radius = () => (mqMobile.matches ? 300 : 470);
+  const radius = () => (mqMobile.matches ? 260 : 420);
   const build = () => {
     const R = radius();
     const golden = Math.PI * (3 - Math.sqrt(5));
@@ -19,7 +19,7 @@
       const y = 1 - (i / (N - 1)) * 2;            // от 1 до -1
       const lat = Math.asin(y) * 180 / Math.PI;     // широта
       const lon = (i * golden * 180 / Math.PI) % 360; // долгота
-      return `<div class="about-card" style="transform: rotateY(${lon.toFixed(2)}deg) rotateX(${(-lat).toFixed(2)}deg) translateZ(${R}px)"><img src="${esc(thumbOf(w))}" alt="" loading="lazy" decoding="async" draggable="false"></div>`;
+      return `<div class="about-card" style="transform: rotateY(${lon.toFixed(2)}deg) rotateX(${(-lat).toFixed(2)}deg) translateZ(${R}px)"><img src="${esc(thumbOf(w))}" alt="" decoding="async" draggable="false"></div>`;
     }).join('');
   };
   if (sphere && N) {

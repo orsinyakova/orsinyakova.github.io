@@ -974,7 +974,7 @@ body.menu-open .hero-corners i { z-index: 1; }
   .about-slide { width: 240px; height: 240px; }
   .about-track { gap: 12px; }
   .about-clients { position: relative; gap: 30px; }
-  .about-clients-img { order: 2; padding: 0; }
+  .about-clients-img { order: 2; padding: 0; width: 100%; max-width: 360px; }
   .about-stack { width: 100%; height: auto; aspect-ratio: 354 / 411; margin: 0; }
   .about-process > div:first-child { display: none; }
   .about-steps { grid-template-columns: 1fr; gap: 24px; }
