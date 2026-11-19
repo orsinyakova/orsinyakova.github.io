@@ -710,7 +710,7 @@
           "thumb": "assets/works/kavkaz-booklet-cover-sm.webp",
           "w": 1800,
           "h": 1200,
-          "gallery": true,
+          "gallery": false,
           "hero": false
         },
         {
@@ -740,7 +740,7 @@
           "thumb": "assets/works/kavkaz-booklet-reel-poster.webp",
           "w": 720,
           "h": 900,
-          "gallery": true,
+          "gallery": false,
           "hero": false
         },
         {
@@ -760,7 +760,7 @@
           "thumb": "assets/works/kavkaz-booklet-day-2-sm.webp",
           "w": 1400,
           "h": 1785,
-          "gallery": true,
+          "gallery": false,
           "hero": false
         },
         {
@@ -770,7 +770,7 @@
           "thumb": "assets/works/kavkaz-booklet-spread-day4-sm.webp",
           "w": 1700,
           "h": 1209,
-          "gallery": true,
+          "gallery": false,
           "hero": false
         }
       ],
