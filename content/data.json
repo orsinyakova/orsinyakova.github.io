@@ -253,7 +253,7 @@
           "thumb": "assets/works/koleso-cover-sm.webp",
           "w": 1332,
           "h": 888,
-          "gallery": true,
+          "gallery": false,
           "hero": false
         },
         {
