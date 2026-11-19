@@ -218,6 +218,16 @@
           "w": 1800,
           "h": 1200,
           "gallery": true,
+          "hero": false
+        },
+        {
+          "id": "kavkaz-ot-narzana-do-zve-zd-w3sf",
+          "type": "image",
+          "src": "assets/works/kavkaz-kavkaz-ot-narzana-do-zve-zd-w3sf.webp",
+          "thumb": "assets/works/kavkaz-kavkaz-ot-narzana-do-zve-zd-w3sf-sm.webp",
+          "w": 1660,
+          "h": 947,
+          "gallery": true,
           "hero": true
         }
       ],
