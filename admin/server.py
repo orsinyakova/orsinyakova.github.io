@@ -17,6 +17,7 @@ MEDIA_DIR = os.path.join(ROOT, 'assets', 'works')
 ORIGINALS = os.path.join(ROOT, '_originals')
 TRASH = os.path.join(ROOT, '_trash')
 PORT = int(os.environ.get('PORT', 8800))
+SERVER_VERSION = 3  # увеличивать при изменениях сервера — админка попросит перезапуск
 LOCK = threading.Lock()
 
 # ---------------------------------------------------------------- типографика
@@ -267,7 +268,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if u.path == '/api/data':
             return self.send_json(load())
         if u.path == '/api/status':
-            return self.send_json({'git': os.path.isdir(os.path.join(ROOT, '.git'))})
+            return self.send_json({'git': os.path.isdir(os.path.join(ROOT, '.git')), 'version': SERVER_VERSION})
         if u.path in ('/admin', '/admin/'):
             self.path = '/admin/index.html'
         if any(seg in u.path for seg in ('/_originals', '/_trash', '/.git')):

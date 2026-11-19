@@ -583,7 +583,22 @@
     });
   });
 
+  // ---------- проверка версии сервера ----------
+  const NEED_SERVER = 3;
+  const checkServer = async () => {
+    try {
+      const st = await (await fetch('/api/status', { cache: 'no-store' })).json();
+      if ((st.version || 0) < NEED_SERVER) {
+        const bar = document.createElement('div');
+        bar.className = 'server-warn';
+        bar.innerHTML = '<strong>Админку нужно перезапустить.</strong> Сервер устарел, и часть изменений (например, порядок на первом экране) не попадёт на сайт. Закрой окно Терминала с админкой и снова дважды кликни «Запустить админку.command».';
+        document.body.prepend(bar);
+      }
+    } catch (e) {}
+  };
+
   // ---------- старт ----------
+  checkServer();
   (async () => {
     try {
       S.data = await (await fetch('/api/data')).json();

@@ -188,3 +188,6 @@ kbd { font: inherit; font-size: 11px; opacity: .55; }
 .hs-label { position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 8px 6px; background: linear-gradient(transparent, rgba(0,0,0,.75)); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .hs-card:hover .go-tools { opacity: 1; }
 .hs-pick { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.server-warn { position: sticky; top: 0; z-index: 20; padding: 12px 20px; background: #ffd27a; color: #0a0a0a; font-size: 14px; }
+.server-warn strong { font-weight: 600; }
